@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { geoCentroid } from "d3-geo";
 import { AlbersUsa } from "@visx/geo";
 import * as topojson from "topojson-client";
-import topology from "../utils/usa-topo.json";
-import stateAbbrs from "../utils/usa-abbr.json";
+import topology from "../data/usa-topo.json";
+import stateAbbrs from "../data/usa-abbr.json";
 
 export const background = "#EBF4F3";
 

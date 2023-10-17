@@ -4,7 +4,10 @@ import React from "react";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import Map from "@/components/Map";
 import GeoChart from "@/components/GeoChart";
-import geoData from "@/utils/GeoChart.world.geo.json";
+import geoData from "@/data/GeoChart.world.geo.json";
+import countyData from "@/data/taiwan-county.json";
+import townData from "@/data/taiwan-town.json";
+import villageData from "@/data/taiwan-village.json";
 import { FeatureCollection } from "geojson";
 
 export default function Home() {
@@ -13,7 +16,10 @@ export default function Home() {
     //   {({ width, height }) => <Map width={width} height={height} />}
     // </ParentSize>
     <>
-      <GeoChart data={geoData as FeatureCollection} property="pop_est" />
+      <GeoChart
+        countyData={countyData as unknown as TopoJSON.Topology}
+        property="pop_est"
+      />
     </>
   );
 }

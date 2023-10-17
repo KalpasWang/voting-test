@@ -2,19 +2,20 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { select, geoPath, geoMercator, min, max, scaleLinear } from "d3";
+import * as topojson from "topojson-client";
 import useResizeObserver from "@/hooks/useResizeObserver";
-import { Feature, type FeatureCollection, type GeoJSON } from "geojson";
+import { Feature } from "geojson";
 
 /**
  * Component that renders a map of Germany.
  */
 
 type Props = {
-  data: FeatureCollection;
+  countyData: TopoJSON.Topology;
   property: string;
 };
 
-function GeoChart({ data, property }: Props) {
+function GeoChart({ countyData, property }: Props) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const dimensions = useResizeObserver(wrapperRef);
@@ -25,17 +26,23 @@ function GeoChart({ data, property }: Props) {
     if (!svgRef.current) return;
     const svg = select(svgRef.current);
 
-    const minProp = min(
-      data.features,
-      (feature) => feature.properties?.[property]
-    );
-    const maxProp = max(
-      data.features,
-      (feature) => feature.properties?.[property]
-    );
-    const colorScale = scaleLinear<string, number>()
-      .domain([minProp, maxProp])
-      .range(["#ccc", "red"]);
+    // get county topojson features
+    const counties = topojson.feature(
+      countyData,
+      countyData.objects.counties as TopoJSON.GeometryCollection
+    ) as CountyFeatureCollection;
+
+    // const minProp = min(
+    //   data.features,
+    //   (feature) => feature.properties?.[property]
+    // );
+    // const maxProp = max(
+    //   data.features,
+    //   (feature) => feature.properties?.[property]
+    // );
+    // const colorScale = scaleLinear<string, number>()
+    //   .domain([minProp, maxProp])
+    //   .range(["#ccc", "red"]);
 
     // use resized dimensions
     // but fall back to getBoundingClientRect, if no dimensions yet.
@@ -45,7 +52,7 @@ function GeoChart({ data, property }: Props) {
 
     // projects geo-coordinates on a 2D plane
     const projection = geoMercator()
-      .fitSize([width, height], selectedCountry || data)
+      .fitSize([width, height], selectedCountry || counties)
       .precision(100);
 
     // takes geojson data,
@@ -55,14 +62,14 @@ function GeoChart({ data, property }: Props) {
     // render each country
     svg
       .selectAll(".country")
-      .data(data.features)
+      .data(counties.features)
       .join("path")
       .on("click", (event, feature) => {
         setSelectedCountry(selectedCountry === feature ? null : feature);
       })
       .attr("class", "country")
       .transition()
-      .attr("fill", (feature) => colorScale(feature.properties?.[property]))
+      .attr("fill", "#fff") //(feature) => colorScale(feature.properties?.[property]))
       .attr("d", (feature) => pathGenerator(feature));
 
     // render text
@@ -80,7 +87,7 @@ function GeoChart({ data, property }: Props) {
       )
       .attr("x", 10)
       .attr("y", 25);
-  }, [data, dimensions, property, selectedCountry]);
+  }, [countyData, dimensions, property, selectedCountry]);
 
   return (
     <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
