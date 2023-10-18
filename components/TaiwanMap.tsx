@@ -21,6 +21,8 @@ const counties = topojson.feature(
   features: CountyFeatureShape[];
 };
 
+console.log(counties);
+
 // @ts-expect-error
 const towns = topojson.feature(townTopology, townTopology.objects.towns) as {
   type: "FeatureCollection";
@@ -59,6 +61,8 @@ export default function TaiwanMap({
   const centerY = height / 2;
   const scale = 5500;
 
+  console.log(selectedCounty);
+
   const renderedTowns = () => {
     return towns.features.filter(
       (town) => town.properties.countyId === selectedCounty?.properties.countyId
@@ -80,6 +84,8 @@ export default function TaiwanMap({
         scale={scale}
         translate={[centerX, centerY]}
         center={[120.751864, 23.575998]}
+        // @ts-ignore
+        fitSize={([width, height], counties)}
       >
         {(mercator) => (
           <g>
