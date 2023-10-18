@@ -16,6 +16,13 @@
   }
 }
 
+html,
+body {
+  width: 100%;
+  min-height: fit-content;
+  height: 100vh;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

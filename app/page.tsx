@@ -9,17 +9,20 @@ import countyData from "@/data/taiwan-county.json";
 import townData from "@/data/taiwan-town.json";
 import villageData from "@/data/taiwan-village.json";
 import { FeatureCollection } from "geojson";
+import TaiwanMap from "@/components/TaiwanMap";
 
 export default function Home() {
   return (
-    // <ParentSize>
-    //   {({ width, height }) => <Map width={width} height={height} />}
-    // </ParentSize>
-    <>
-      <GeoChart
-        countyData={countyData as unknown as TopoJSON.Topology}
-        property="pop_est"
-      />
-    </>
+    <ParentSize>
+      {({ width, height }) => (
+        <TaiwanMap width={width} height={height} events={true} />
+      )}
+    </ParentSize>
+    // <>
+    //   <GeoChart
+    //     countyData={countyData as unknown as TopoJSON.Topology}
+    //     property="pop_est"
+    //   />
+    // </>
   );
 }

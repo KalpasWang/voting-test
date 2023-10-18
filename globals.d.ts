@@ -1,4 +1,7 @@
-declare module "*.json";
+declare module "*.json" {
+  const data: TopoJSON.Topology;
+  export default data;
+}
 
 type CountyFeatureCollection = {
   type: "FeatureCollection";
@@ -11,9 +14,10 @@ type CountyFeatureShape = {
   properties: CountyProperty;
 };
 
-type MapGeometry = {
-  type: "MultiPolygon";
-  coordinates: [number, number][][];
+type TownFeatureShape = {
+  type: "Feature";
+  geometry: { coordinates: [number, number][][]; type: "Polygon" };
+  properties: TownProperty;
 };
 
 type CountyProperty = {
