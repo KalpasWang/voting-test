@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { scaleQuantize } from "@visx/scale";
 import { Mercator, Graticule } from "@visx/geo";
 import * as topojson from "topojson-client";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import countyTopology from "@/data/taiwan-county.json";
 import townTopology from "@/data/taiwan-town.json";
 
@@ -58,6 +58,7 @@ export default function TaiwanMap({
 }: GeoMercatorProps) {
   const [selectedCounty, setSelectedCounty] =
     useState<CountyFeatureShape | null>(null);
+  const oldPaths = useRef(new Array(counties.features.length).fill(""));
   const centerX = width / 2;
   const centerY = height / 2;
   const scale = 5500;
@@ -89,51 +90,62 @@ export default function TaiwanMap({
         fitSize={[[width, height], selectedCounty || counties]}
       >
         {(mercator) => (
-          <motion.g transition={{ duration: 0.2 }}>
-            {mercator.features.map(({ feature, path }, i) => (
-              <motion.path
-                key={`county-feature-${i}`}
-                d={path || ""}
-                fill={color(feature.geometry.coordinates.length)}
-                stroke={"#000"}
-                strokeWidth={1}
-                transition={{ duration: 0.2, easings: "easeInOut" }}
-                onClick={() => {
-                  setSelectedCounty(feature);
-                }}
-              />
-            ))}
-          </motion.g>
-        )}
-      </Mercator>
-      {selectedCounty && (
-        <Mercator<TownFeatureShape>
-          data={renderedTowns()}
-          scale={scale}
-          translate={[centerX, centerY]}
-          center={[120.751864, 23.575998]}
-          fitSize={[[width, height], selectedCounty || counties]}
-        >
-          {(mercator) => (
-            <motion.g transition={{ duration: 0.2 }}>
-              {mercator.features.map(({ feature, path }, i) => (
+          <g>
+            {mercator.features.map(({ feature, path }, i) => {
+              if (path !== oldPaths.current[i]) {
+                oldPaths.current[i] = path;
+              }
+              return (
                 <path
-                  key={`town-feature-${i}`}
+                  key={`county-feature-${i}`}
                   d={path || ""}
                   fill={color(feature.geometry.coordinates.length)}
                   stroke={"#000"}
                   strokeWidth={1}
                   onClick={() => {
-                    if (events)
-                      alert(
-                        `Clicked: ${feature.properties.townName} (${feature.properties.townId})`
-                      );
+                    setSelectedCounty(feature);
                   }}
-                />
-              ))}
-            </motion.g>
-          )}
-        </Mercator>
+                ></path>
+              );
+            })}
+          </g>
+        )}
+      </Mercator>
+      {selectedCounty && (
+        <AnimatePresence>
+          <Mercator<TownFeatureShape>
+            data={renderedTowns()}
+            scale={scale}
+            translate={[centerX, centerY]}
+            center={[120.751864, 23.575998]}
+            fitSize={[[width, height], selectedCounty]}
+          >
+            {(mercator) => (
+              <motion.g
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.6 }}
+              >
+                {mercator.features.map(({ feature, path }, i) => (
+                  <path
+                    key={`town-feature-${i}`}
+                    d={path || ""}
+                    fill={"#f0f0f0"}
+                    stroke={"#000"}
+                    strokeWidth={1}
+                    onClick={() => {
+                      if (events)
+                        alert(
+                          `Clicked: ${feature.properties.townName} (${feature.properties.townId})`
+                        );
+                    }}
+                  ></path>
+                ))}
+              </motion.g>
+            )}
+          </Mercator>
+        </AnimatePresence>
       )}
     </svg>
   );

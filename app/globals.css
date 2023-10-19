@@ -24,7 +24,7 @@ body {
 }
 
 svg path {
-  transition: 0.2 ease-out;
+  transition: 0.8s;
 }
 
 body {
