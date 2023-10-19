@@ -72,7 +72,7 @@ export default function TaiwanMap({
   };
 
   return width < 10 ? null : (
-    <svg width={width} height={height}>
+    <svg id="map-svg" width={width} height={height}>
       <rect
         x={0}
         y={0}

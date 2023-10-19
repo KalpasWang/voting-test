@@ -16,14 +16,7 @@
   }
 }
 
-html,
-body {
-  width: 100%;
-  min-height: fit-content;
-  height: 100vh;
-}
-
-svg path {
+#map-svg path {
   transition: 0.8s;
 }
 
