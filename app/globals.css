@@ -23,6 +23,10 @@ body {
   height: 100vh;
 }
 
+svg path {
+  transition: 0.2 ease-out;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
