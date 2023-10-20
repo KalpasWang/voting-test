@@ -49,3 +49,5 @@ type VillageProperty = {
   townCode: string;
   note: string;
 };
+
+type TooltipDataType = string;

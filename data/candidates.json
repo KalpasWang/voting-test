@@ -1,8 +1,11 @@
-[
-  {
-    "candidateId": "candidate1",
-    "number": 1,
-    "candidateName1": "宋楚瑜",
-    "candidateName2": "余湘"
-  }
-]
+{
+  "year": 2020,
+  "candidates": [
+    {
+      "candidateId": "candidate1",
+      "number": 1,
+      "candidateName1": "宋楚瑜",
+      "candidateName2": "余湘"
+    }
+  ]
+}

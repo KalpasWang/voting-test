@@ -1,33 +1,49 @@
 "use client";
 
 import React from "react";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import { PolarAngleAxis, RadialBar, RadialBarChart } from "recharts";
 
-const data = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 },
-  { name: "Group E", value: 278 },
-  { name: "Group F", value: 189 },
-];
+const data = [{ name: "L1", value: 25 }];
+
+const circleSize = 200;
 
 export default function PercentageChart() {
   return (
-    <PieChart width={400} height={400}>
-      <Pie
-        dataKey="value"
-        startAngle={180}
-        endAngle={-90}
-        data={data}
-        cx="50%"
-        cy="50%"
-        outerRadius={80}
-        innerRadius={40}
-        rx={10}
-        ry={10}
-        fill="#8884d8"
+    <RadialBarChart
+      width={circleSize}
+      height={circleSize}
+      cx={circleSize / 2}
+      cy={circleSize / 2}
+      innerRadius={70}
+      outerRadius={90}
+      barSize={20}
+      data={data}
+      startAngle={90}
+      endAngle={-270}
+    >
+      <PolarAngleAxis
+        type="number"
+        domain={[0, 100]}
+        angleAxisId={0}
+        tick={false}
       />
-    </PieChart>
+      <RadialBar
+        background
+        // @ts-ignore
+        clockwise
+        dataKey="value"
+        cornerRadius={10}
+        fill="#82ca9d"
+      />
+      <text
+        x={circleSize / 2}
+        y={circleSize / 2}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        className="progress-label"
+      >
+        25
+      </text>
+    </RadialBarChart>
   );
 }
