@@ -20,11 +20,6 @@
   transition: 0.8s;
 }
 
-#map-svg path.county-path:hover {
-  stroke: "#f00";
-  transition: all 0.2s ease-in-out;
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

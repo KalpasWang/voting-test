@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 // import { scaleQuantize } from "@visx/scale";
 import { Mercator, Graticule } from "@visx/geo";
 import * as topojson from "topojson-client";
@@ -40,6 +46,31 @@ const color = (value: number) => {
   return "#ffbbdd";
 };
 
+function mapReducer(state: MapState, action: MapAction): MapState {
+  switch (action.type) {
+    case "down": {
+      const level = state.currentLevel;
+      if (level === 1) return state;
+      if (level === 0 && action.payload.type === "county")
+        return {
+          ...state,
+          currentLevel: level + 1,
+          selectedCounty: action.payload.feature,
+        };
+      return state;
+    }
+    case "up": {
+      const level = state.currentLevel;
+      if (level === 0) return state;
+      if (level === 1)
+        return { ...state, currentLevel: level - 1, selectedCounty: undefined };
+      return state;
+    }
+    default:
+      return state;
+  }
+}
+
 // const color = scaleQuantize({
 //   domain: [
 //     Math.min(...world.features.map((f) => f.geometry.coordinates.length)),
@@ -62,6 +93,7 @@ export default function TaiwanMap({
   height,
   events = false,
 }: GeoMercatorProps) {
+  const [state, dispatch] = useReducer(mapReducer, { currentLevel: 0 });
   const [selectedCounty, setSelectedCounty] =
     useState<CountyFeatureShape | null>(null);
   const {
@@ -83,7 +115,6 @@ export default function TaiwanMap({
     }
   );
 
-  const oldPaths = useRef(new Array(counties.features.length).fill(""));
   const centerX = width / 2;
   const centerY = height / 2;
   const scale = 5500;
@@ -116,7 +147,10 @@ export default function TaiwanMap({
   };
 
   return (
-    <div ref={containerRef}>
+    <div
+      ref={containerRef}
+      style={{ minWidth: width, minHeight: height, position: "relative" }}
+    >
       <svg id="map-svg" width={width} height={height}>
         <rect
           x={0}
@@ -137,20 +171,21 @@ export default function TaiwanMap({
           {(mercator) => (
             <g>
               {mercator.features.map(({ feature, path }, i) => {
-                if (path !== oldPaths.current[i]) {
-                  oldPaths.current[i] = path;
-                }
                 return (
                   <path
-                    className="county-path"
+                    className="district"
                     key={`county-feature-${i}`}
                     d={path || ""}
                     fill={color(feature.geometry.coordinates.length)}
+                    fillOpacity={0.8}
                     stroke={"#000"}
                     strokeWidth={1}
-                    onClick={() => {
-                      setSelectedCounty(feature);
-                    }}
+                    onClick={() =>
+                      dispatch({
+                        type: "down",
+                        payload: { type: "county", feature: feature },
+                      })
+                    }
                     onPointerEnter={(e) =>
                       handlePointerMove(e, feature.properties.countyName)
                     }
@@ -198,6 +233,13 @@ export default function TaiwanMap({
           </AnimatePresence>
         )}
       </svg>
+      <button
+        className="bg-black text-gray-50 absolute top-2 left-2"
+        style={{ display: state.currentLevel === 0 ? "none" : "inline-block" }}
+        onClick={() => dispatch({ type: "up" })}
+      >
+        back
+      </button>
       {tooltipOpen && (
         <TooltipWithBounds
           key={Math.random()} // needed for bounds to update correctly

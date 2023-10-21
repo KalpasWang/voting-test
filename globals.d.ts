@@ -20,6 +20,12 @@ type TownFeatureShape = {
   properties: TownProperty;
 };
 
+type VillageFeatureShape = {
+  type: "Feature";
+  geometry: { coordinates: [number, number][][]; type: "Polygon" };
+  properties: VillageProperty;
+};
+
 type CountyProperty = {
   countyId: string;
   countyCode: string;
@@ -49,5 +55,26 @@ type VillageProperty = {
   townCode: string;
   note: string;
 };
+
+type MapState = {
+  currentLevel: number;
+  selectedCounty?: CountyFeatureShape;
+  selectedTown?: TownFeatureShape;
+  selectedVillage?: VillageFeatureShape;
+  renderedTowns?: TownFeatureShape[];
+  renderedVillages?: VillageFeatureShape[];
+};
+
+type MapAction =
+  | {
+      type: "down";
+      payload:
+        | { type: "county"; feature: CountyFeatureShape }
+        | { type: "town"; feature: TownFeatureShape }
+        | { type: "village"; feature: VillageFeatureShape };
+    }
+  | {
+      type: "up";
+    };
 
 type TooltipDataType = string;
