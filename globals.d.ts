@@ -57,7 +57,7 @@ type VillageProperty = {
 };
 
 type MapState = {
-  currentLevel: number;
+  currentLevel: 0 | 1 | 2 | 3;
   selectedCounty?: CountyFeatureShape;
   selectedTown?: TownFeatureShape;
   selectedVillage?: VillageFeatureShape;

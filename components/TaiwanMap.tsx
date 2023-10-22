@@ -18,8 +18,6 @@ import {
   useTooltipInPortal,
 } from "@visx/tooltip";
 
-export const background = "#f9f7e8";
-
 export type GeoMercatorProps = {
   width: number;
   height: number;
@@ -42,28 +40,40 @@ const towns = topojson.feature(townTopology, townTopology.objects.towns) as {
   features: TownFeatureShape[];
 };
 
-const color = (value: number) => {
-  return "#ffbbdd";
-};
+function filterTownFeatures(county: CountyFeatureShape) {
+  return towns.features.filter(
+    (f) => f.properties.countyId === county.properties.countyId
+  );
+}
 
 function mapReducer(state: MapState, action: MapAction): MapState {
   switch (action.type) {
     case "down": {
       const level = state.currentLevel;
+      const { type, feature } = action.payload;
       if (level === 1) return state;
-      if (level === 0 && action.payload.type === "county")
+      if (level === 0 && type === "county") {
+        let renderedTowns = state.renderedTowns;
+        if (
+          state.renderedTowns?.[0].properties.countyId !==
+          feature.properties.countyId
+        ) {
+          renderedTowns = filterTownFeatures(feature);
+        }
         return {
           ...state,
-          currentLevel: level + 1,
-          selectedCounty: action.payload.feature,
+          currentLevel: 1,
+          selectedCounty: feature,
+          renderedTowns,
         };
+      }
       return state;
     }
     case "up": {
       const level = state.currentLevel;
       if (level === 0) return state;
       if (level === 1)
-        return { ...state, currentLevel: level - 1, selectedCounty: undefined };
+        return { ...state, currentLevel: 0, selectedCounty: undefined };
       return state;
     }
     default:
@@ -94,8 +104,6 @@ export default function TaiwanMap({
   events = false,
 }: GeoMercatorProps) {
   const [state, dispatch] = useReducer(mapReducer, { currentLevel: 0 });
-  const [selectedCounty, setSelectedCounty] =
-    useState<CountyFeatureShape | null>(null);
   const {
     tooltipData,
     tooltipLeft = 0,
@@ -140,44 +148,31 @@ export default function TaiwanMap({
     [showTooltip, containerBounds, tooltipOpen]
   );
 
-  const renderedTowns = () => {
-    return towns.features.filter(
-      (town) => town.properties.countyId === selectedCounty?.properties.countyId
-    );
-  };
-
   return (
     <div
       ref={containerRef}
-      style={{ minWidth: width, minHeight: height, position: "relative" }}
+      style={{ minWidth: width, minHeight: height }}
+      className="relative"
     >
       <svg id="map-svg" width={width} height={height}>
-        <rect
-          x={0}
-          y={0}
-          width={width}
-          height={height}
-          fill={background}
-          rx={14}
-        />
+        <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
         <Mercator<CountyFeatureShape>
           data={counties.features}
           scale={scale}
           translate={[centerX, centerY]}
-          center={[120.751864, 23.575998]}
+          center={[120.751864, 24.875998]}
           // @ts-ignore
-          fitSize={[[width, height], selectedCounty || counties]}
+          fitSize={[[width, height], state.selectedCounty || counties]}
         >
           {(mercator) => (
-            <g>
+            <g className="relative">
               {mercator.features.map(({ feature, path }, i) => {
                 return (
                   <path
-                    className="district"
+                    className="district relative"
                     key={`county-feature-${i}`}
                     d={path || ""}
-                    fill={color(feature.geometry.coordinates.length)}
-                    fillOpacity={0.8}
+                    fill={"#ff9900"}
                     stroke={"#000"}
                     strokeWidth={1}
                     onClick={() =>
@@ -196,25 +191,26 @@ export default function TaiwanMap({
             </g>
           )}
         </Mercator>
-        {selectedCounty && (
+        {state.renderedTowns && state.selectedCounty && (
           <AnimatePresence>
             <Mercator<TownFeatureShape>
-              data={renderedTowns()}
+              data={state.renderedTowns}
               scale={scale}
               translate={[centerX, centerY]}
               center={[120.751864, 23.575998]}
-              fitSize={[[width, height], selectedCounty]}
+              fitSize={[[width, height], state.selectedCounty]}
             >
               {(mercator) => (
                 <motion.g
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.6 }}
+                  transition={{ duration: 0.2, delay: 0.2 }}
                 >
                   {mercator.features.map(({ feature, path }, i) => (
                     <path
                       key={`town-feature-${i}`}
+                      className="district relative selected"
                       d={path || ""}
                       fill={"#f0f0f0"}
                       stroke={"#000"}

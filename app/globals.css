@@ -16,10 +16,6 @@
   }
 }
 
-#map-svg path {
-  transition: 0.8s;
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -28,12 +24,6 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
-
-svg .country:hover {
-  stroke: black;
-  stroke-width: 1px;
-  cursor: pointer;
 }
 
 #root {
@@ -60,4 +50,14 @@ video {
   right: 0;
   top: auto;
   width: 100%;
+}
+
+#map-svg path {
+  transition: 0.5s;
+}
+
+#map-svg path:hover {
+  opacity: 0.9;
+  cursor: pointer;
+  z-index: 100;
 }
