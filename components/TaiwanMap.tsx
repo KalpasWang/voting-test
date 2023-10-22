@@ -1,12 +1,6 @@
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useReducer } from "react";
 // import { scaleQuantize } from "@visx/scale";
-import { Mercator, Graticule } from "@visx/geo";
+import { Mercator } from "@visx/geo";
 import * as topojson from "topojson-client";
 import { AnimatePresence, motion } from "framer-motion";
 import countyTopology from "@/data/taiwan-county.json";
@@ -117,15 +111,18 @@ export default function TaiwanMap({
     tooltipTop: height / 2,
     tooltipData: "",
   });
-  const { containerRef, containerBounds, TooltipInPortal } = useTooltipInPortal(
-    {
-      detectBounds: true,
-    }
-  );
+  const { containerRef, containerBounds } = useTooltipInPortal({
+    detectBounds: true,
+  });
 
   const centerX = width / 2;
   const centerY = height / 2;
-  const scale = 5500;
+  const scale = 6000;
+  const props: any = {
+    fitSize: state.selectedCounty
+      ? [[width, height], state.selectedCounty]
+      : undefined,
+  };
 
   // console.log(selectedCounty);
 
@@ -137,15 +134,13 @@ export default function TaiwanMap({
         ("clientX" in event ? event.clientX : 0) - containerBounds.left;
       const containerY =
         ("clientY" in event ? event.clientY : 0) - containerBounds.top;
-      console.log(containerX, containerY);
-      console.log(tooltipOpen);
       showTooltip({
         tooltipLeft: containerX,
         tooltipTop: containerY,
         tooltipData: data,
       });
     },
-    [showTooltip, containerBounds, tooltipOpen]
+    [showTooltip, containerBounds]
   );
 
   return (
@@ -160,9 +155,8 @@ export default function TaiwanMap({
           data={counties.features}
           scale={scale}
           translate={[centerX, centerY]}
-          center={[120.751864, 24.875998]}
-          // @ts-ignore
-          fitSize={[[width, height], state.selectedCounty || counties]}
+          center={[120.751864, 24.075998]}
+          {...props}
         >
           {(mercator) => (
             <g className="relative">
@@ -205,7 +199,7 @@ export default function TaiwanMap({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.2 }}
+                  transition={{ duration: 0.2, delay: 0.4 }}
                 >
                   {mercator.features.map(({ feature, path }, i) => (
                     <path
