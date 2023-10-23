@@ -1,7 +1,40 @@
-declare module "*.json" {
-  const data: TopoJSON.Topology;
-  export default data;
-}
+// declare module "taiwan-*.json" {
+//   const data: TopoJSON.Topology;
+//   export default data;
+// }
+
+// declare module "electionResult.json" {
+//   const data: ElectionResult;
+//   export default data;
+// }
+
+// election data type
+type ElectionResult = {
+  electionRegion: string;
+  candidate1: number;
+  candidate2: number;
+  candidate3: number;
+  validVotes: number;
+  invalidVotes: number;
+  totalVotes: number;
+  totalElectors: number;
+  votingRate: number;
+  counties: CountyVoteResult[];
+};
+
+type CountyVoteResult = {
+  countyName: string;
+  candidate1: number;
+  candidate2: number;
+  candidate3: number;
+  validVotes: number;
+  invalidVotes: number;
+  totalVotes: number;
+  totalElectors: number;
+  votingRate: number;
+};
+
+// Map type
 
 type CountyFeatureCollection = {
   type: "FeatureCollection";

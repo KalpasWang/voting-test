@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import countyData from "@/data/taiwan-county.json";
@@ -19,7 +17,7 @@ export default function Home() {
           )}
         </ParentSize>
       </div>
-      <div className="p-5 h-10 m-auto">{/* <PercentageChart /> */}</div>
+      {/* <div className="p-5 h-10 m-auto"><PercentageChart /></div> */}
     </div>
   );
 }

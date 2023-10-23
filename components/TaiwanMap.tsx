@@ -1,16 +1,18 @@
 import React, { useCallback, useReducer } from "react";
-// import { scaleQuantize } from "@visx/scale";
+import { scaleQuantize } from "@visx/scale";
 import { Mercator } from "@visx/geo";
 import * as topojson from "topojson-client";
 import { AnimatePresence, motion } from "framer-motion";
-import countyTopology from "@/data/taiwan-county.json";
-import townTopology from "@/data/taiwan-town.json";
 import {
   TooltipWithBounds,
   defaultStyles,
   useTooltip,
   useTooltipInPortal,
 } from "@visx/tooltip";
+import { getCountyVoteDifferenceRate } from "@/utils/helpers";
+import countyTopology from "@/data/taiwan-county.json";
+import townTopology from "@/data/taiwan-town.json";
+import electionResult from "@/data/electionResult.json";
 
 export type GeoMercatorProps = {
   width: number;
@@ -75,22 +77,20 @@ function mapReducer(state: MapState, action: MapAction): MapState {
   }
 }
 
-// const color = scaleQuantize({
-//   domain: [
-//     Math.min(...world.features.map((f) => f.geometry.coordinates.length)),
-//     Math.max(...world.features.map((f) => f.geometry.coordinates.length)),
-//   ],
-//   range: [
-//     "#ffb01d",
-//     "#ffa020",
-//     "#ff9221",
-//     "#ff8424",
-//     "#ff7425",
-//     "#fc5e2f",
-//     "#f94b3a",
-//     "#f63a48",
-//   ],
-// });
+const differenceRate = getCountyVoteDifferenceRate(electionResult);
+const color = scaleQuantize({
+  domain: [Math.min(...differenceRate), Math.max(...differenceRate)],
+  range: [
+    "#ffb01d",
+    "#ffa020",
+    "#ff9221",
+    "#bbdefb",
+    "#64b5f6",
+    "#2196f3",
+    "#1976d2",
+    "#0d47a1",
+  ],
+});
 
 export default function TaiwanMap({
   width,

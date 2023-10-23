@@ -1,31 +1,255 @@
 {
-  "districtName": "全國",
-  "result": {
-    "candidate1": 608590,
-    "candidate2": 5522119,
-    "candidate3": 8170231
-  },
+  "electionRegion": "全國",
+  "candidate1": 608590,
+  "candidate2": 5522119,
+  "candidate3": 8170231,
   "validVotes": 14300940,
-  "nonvalidVotes": 163631,
+  "invalidVotes": 163631,
   "totalVotes": 14464571,
   "totalElectors": 19311105,
   "votingRate": 74.9,
   "counties": [
     {
-      "countyId": "A",
-      "countyCode": "63000",
       "countyName": "臺北市",
-      "countyEng": "Taipei City",
-      "result": {
-        "candidate1": 70769,
-        "candidate2": 685830,
-        "candidate3": 875854
-      },
-      "validVotes": 14300940,
-      "nonvalidVotes": 163631,
-      "totalVotes": 14464571,
-      "totalElectors": 19311105,
-      "votingRate": 74.9
+      "candidate1": 70769,
+      "candidate2": 685830,
+      "candidate3": 875854,
+      "validVotes": 1632453,
+      "invalidVotes": 21381,
+      "totalVotes": 1653834,
+      "totalElectors": 2167264,
+      "votingRate": 76.31
+    },
+    {
+      "countyName": "新北市",
+      "candidate1": 112620,
+      "candidate2": 959631,
+      "candidate3": 1393936,
+      "validVotes": 2466187,
+      "invalidVotes": 28041,
+      "totalVotes": 2494228,
+      "totalElectors": 3321459,
+      "votingRate": 75.09
+    },
+    {
+      "countyName": "桃園市",
+      "candidate1": 63132,
+      "candidate2": 529749,
+      "candidate3": 718260,
+      "validVotes": 1311141,
+      "invalidVotes": 14066,
+      "totalVotes": 1325207,
+      "totalElectors": 1780755,
+      "votingRate": 74.42
+    },
+    {
+      "countyName": "臺中市",
+      "candidate1": 84800,
+      "candidate2": 646366,
+      "candidate3": 967304,
+      "validVotes": 1698470,
+      "invalidVotes": 20550,
+      "totalVotes": 1719020,
+      "totalElectors": 2251064,
+      "votingRate": 76.36
+    },
+    {
+      "countyName": "臺南市",
+      "candidate1": 41075,
+      "candidate2": 339702,
+      "candidate3": 786471,
+      "validVotes": 1167248,
+      "invalidVotes": 12341,
+      "totalVotes": 1179589,
+      "totalElectors": 1556845,
+      "votingRate": 75.77
+    },
+    {
+      "countyName": "高雄市",
+      "candidate1": 55309,
+      "candidate2": 610896,
+      "candidate3": 1097621,
+      "validVotes": 1763826,
+      "invalidVotes": 17006,
+      "totalVotes": 1780832,
+      "totalElectors": 2299558,
+      "votingRate": 77.44
+    },
+    {
+      "countyName": "新竹縣",
+      "candidate1": 18435,
+      "candidate2": 154224,
+      "candidate3": 152380,
+      "validVotes": 325039,
+      "invalidVotes": 3970,
+      "totalVotes": 329009,
+      "totalElectors": 438049,
+      "votingRate": 75.11
+    },
+    {
+      "countyName": "苗栗縣",
+      "candidate1": 15222,
+      "candidate2": 164345,
+      "candidate3": 147034,
+      "validVotes": 326601,
+      "invalidVotes": 3578,
+      "totalVotes": 330179,
+      "totalElectors": 447422,
+      "votingRate": 73.8
+    },
+    {
+      "countyName": "彰化縣",
+      "candidate1": 35060,
+      "candidate2": 291835,
+      "candidate3": 436336,
+      "validVotes": 763231,
+      "invalidVotes": 10277,
+      "totalVotes": 773508,
+      "totalElectors": 1035507,
+      "votingRate": 74.7
+    },
+    {
+      "countyName": "南投縣",
+      "candidate1": 13315,
+      "candidate2": 133791,
+      "candidate3": 152046,
+      "validVotes": 299152,
+      "invalidVotes": 3555,
+      "totalVotes": 302707,
+      "totalElectors": 413485,
+      "votingRate": 73.21
+    },
+    {
+      "countyName": "雲林縣",
+      "candidate1": 15331,
+      "candidate2": 138341,
+      "candidate3": 246116,
+      "validVotes": 399788,
+      "invalidVotes": 5203,
+      "totalVotes": 404991,
+      "totalElectors": 565269,
+      "votingRate": 71.65
+    },
+    {
+      "countyName": "嘉義縣",
+      "candidate1": 11138,
+      "candidate2": 98810,
+      "candidate3": 197342,
+      "validVotes": 307290,
+      "invalidVotes": 3748,
+      "totalVotes": 311038,
+      "totalElectors": 428640,
+      "votingRate": 72.56
+    },
+    {
+      "countyName": "屏東縣",
+      "candidate1": 14021,
+      "candidate2": 179353,
+      "candidate3": 317676,
+      "validVotes": 511050,
+      "invalidVotes": 4992,
+      "totalVotes": 516042,
+      "totalElectors": 688793,
+      "votingRate": 74.92
+    },
+    {
+      "countyName": "宜蘭縣",
+      "candidate1": 10739,
+      "candidate2": 90010,
+      "candidate3": 173657,
+      "validVotes": 274406,
+      "invalidVotes": 3029,
+      "totalVotes": 277435,
+      "totalElectors": 375608,
+      "votingRate": 73.86
+    },
+    {
+      "countyName": "花蓮縣",
+      "candidate1": 6869,
+      "candidate2": 111834,
+      "candidate3": 66509,
+      "validVotes": 185212,
+      "invalidVotes": 2081,
+      "totalVotes": 187293,
+      "totalElectors": 269558,
+      "votingRate": 69.48
+    },
+    {
+      "countyName": "臺東縣",
+      "candidate1": 4163,
+      "candidate2": 67413,
+      "candidate3": 44092,
+      "validVotes": 115668,
+      "invalidVotes": 1119,
+      "totalVotes": 116787,
+      "totalElectors": 179536,
+      "votingRate": 65.05
+    },
+    {
+      "countyName": "澎湖縣",
+      "candidate1": 2583,
+      "candidate2": 20911,
+      "candidate3": 27410,
+      "validVotes": 50904,
+      "invalidVotes": 644,
+      "totalVotes": 51548,
+      "totalElectors": 88432,
+      "votingRate": 58.29
+    },
+    {
+      "countyName": "基隆市",
+      "candidate1": 11878,
+      "candidate2": 99360,
+      "candidate3": 114966,
+      "validVotes": 226204,
+      "invalidVotes": 2458,
+      "totalVotes": 228662,
+      "totalElectors": 311801,
+      "votingRate": 73.34
+    },
+    {
+      "countyName": "新竹市",
+      "candidate1": 14103,
+      "candidate2": 102725,
+      "candidate3": 144274,
+      "validVotes": 261102,
+      "invalidVotes": 3423,
+      "totalVotes": 264525,
+      "totalElectors": 345345,
+      "votingRate": 76.6
+    },
+    {
+      "countyName": "嘉義市",
+      "candidate1": 6204,
+      "candidate2": 56269,
+      "candidate3": 99265,
+      "validVotes": 161738,
+      "invalidVotes": 1664,
+      "totalVotes": 163402,
+      "totalElectors": 215055,
+      "votingRate": 75.98
+    },
+    {
+      "countyName": "金門縣",
+      "candidate1": 1636,
+      "candidate2": 35948,
+      "candidate3": 10456,
+      "validVotes": 48040,
+      "invalidVotes": 423,
+      "totalVotes": 48463,
+      "totalElectors": 120721,
+      "votingRate": 40.14
+    },
+    {
+      "countyName": "連江縣",
+      "candidate1": 188,
+      "candidate2": 4776,
+      "candidate3": 1226,
+      "validVotes": 6190,
+      "invalidVotes": 82,
+      "totalVotes": 6272,
+      "totalElectors": 10939,
+      "votingRate": 57.34
     }
   ]
 }
