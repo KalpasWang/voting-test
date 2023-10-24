@@ -11,6 +11,7 @@
   "dependencies": {
     "@visx/geo": "^3.3.0",
     "@visx/responsive": "^3.3.0",
+    "@visx/scale": "^3.3.0",
     "@visx/tooltip": "^3.3.0",
     "d3-geo": "^3.1.0",
     "framer-motion": "^10.16.4",

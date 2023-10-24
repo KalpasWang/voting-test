@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import countyData from "@/data/taiwan-county.json";

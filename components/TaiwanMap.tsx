@@ -1,5 +1,6 @@
+"use client";
+
 import React, { useCallback, useReducer } from "react";
-import { scaleQuantize } from "@visx/scale";
 import { Mercator } from "@visx/geo";
 import * as topojson from "topojson-client";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,10 +10,11 @@ import {
   useTooltip,
   useTooltipInPortal,
 } from "@visx/tooltip";
-import { getCountyVoteDifferenceRate } from "@/utils/helpers";
+import { getCountyBlueWinArray, getCountyGreenWinArray } from "@/utils/helpers";
 import countyTopology from "@/data/taiwan-county.json";
 import townTopology from "@/data/taiwan-town.json";
 import electionResult from "@/data/electionResult.json";
+import getDistricColorMap from "@/utils/getDistrictColor";
 
 export type GeoMercatorProps = {
   width: number;
@@ -77,20 +79,10 @@ function mapReducer(state: MapState, action: MapAction): MapState {
   }
 }
 
-const differenceRate = getCountyVoteDifferenceRate(electionResult);
-const color = scaleQuantize({
-  domain: [Math.min(...differenceRate), Math.max(...differenceRate)],
-  range: [
-    "#ffb01d",
-    "#ffa020",
-    "#ff9221",
-    "#bbdefb",
-    "#64b5f6",
-    "#2196f3",
-    "#1976d2",
-    "#0d47a1",
-  ],
-});
+// get county's corresponding color
+const GreenWin = getCountyGreenWinArray(electionResult);
+const BlueWin = getCountyBlueWinArray(electionResult);
+const colors = getDistricColorMap(GreenWin, BlueWin);
 
 export default function TaiwanMap({
   width,
@@ -166,7 +158,7 @@ export default function TaiwanMap({
                     className="district relative"
                     key={`county-feature-${i}`}
                     d={path || ""}
-                    fill={"#ff9900"}
+                    fill={colors(feature.properties.countyName)}
                     stroke={"#000"}
                     strokeWidth={1}
                     onClick={() =>
