@@ -25,7 +25,7 @@ export type GeoMercatorProps = {
 const counties = topojson.feature(
   countyTopology as unknown as TopoJSON.Topology,
   countyTopology.objects.counties as TopoJSON.GeometryCollection
-) as {
+) as unknown as {
   type: "FeatureCollection";
   features: CountyFeatureShape[];
 };
@@ -40,7 +40,7 @@ const towns = topojson.feature(townTopology, townTopology.objects.towns) as {
 
 function filterTownFeatures(county: CountyFeatureShape) {
   return towns.features.filter(
-    (f) => f.properties.countyId === county.properties.countyId
+    (f) => f.properties.countyName === county.properties.countyName
   );
 }
 
@@ -53,8 +53,8 @@ function mapReducer(state: MapState, action: MapAction): MapState {
       if (level === 0 && type === "county") {
         let renderedTowns = state.renderedTowns;
         if (
-          state.renderedTowns?.[0].properties.countyId !==
-          feature.properties.countyId
+          state.renderedTowns?.[0].properties.countyName !==
+          feature.properties.countyName
         ) {
           renderedTowns = filterTownFeatures(feature);
         }
@@ -109,7 +109,7 @@ export default function TaiwanMap({
 
   const centerX = width / 2;
   const centerY = height / 2;
-  const scale = 6000;
+  const scale = 9000;
   const props: any = {
     fitSize: state.selectedCounty
       ? [[width, height], state.selectedCounty]
@@ -148,7 +148,8 @@ export default function TaiwanMap({
           scale={scale}
           translate={[centerX, centerY]}
           center={[120.751864, 24.075998]}
-          {...props}
+          // @ts-ignore
+          fitSize={[[width, height], counties]}
         >
           {(mercator) => (
             <g className="relative">

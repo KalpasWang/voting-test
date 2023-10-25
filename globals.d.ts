@@ -43,8 +43,11 @@ type CountyFeatureCollection = {
 
 type CountyFeatureShape = {
   type: "Feature";
+  id: string;
   geometry: { coordinates: [number, number][][]; type: "Polygon" };
-  properties: CountyProperty;
+  properties: {
+    countyName: string;
+  };
 };
 
 type TownFeatureShape = {
@@ -57,13 +60,6 @@ type VillageFeatureShape = {
   type: "Feature";
   geometry: { coordinates: [number, number][][]; type: "Polygon" };
   properties: VillageProperty;
-};
-
-type CountyProperty = {
-  countyId: string;
-  countyCode: string;
-  countyName: string;
-  countyEng: string;
 };
 
 type TownProperty = {
