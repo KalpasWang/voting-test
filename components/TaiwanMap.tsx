@@ -14,7 +14,9 @@ import { getCountyBlueWinArray, getCountyGreenWinArray } from "@/utils/helpers";
 import countyTopology from "@/data/taiwan-county.json";
 import townTopology from "@/data/taiwan-town.json";
 import electionResult from "@/data/electionResult.json";
+import districtTopojson from "@/data/towns-10t.json";
 import getDistricColorMap from "@/utils/getDistrictColor";
+import { Feature, FeatureCollection, Geometry } from "geojson";
 
 export type GeoMercatorProps = {
   width: number;
@@ -22,23 +24,58 @@ export type GeoMercatorProps = {
   events?: boolean;
 };
 
-const counties = topojson.feature(
-  countyTopology as unknown as TopoJSON.Topology,
-  countyTopology.objects.counties as TopoJSON.GeometryCollection
-) as unknown as {
-  type: "FeatureCollection";
-  features: CountyFeatureShape[];
+type CountyFeatures = FeatureCollection<Geometry, CountyProperty>;
+type TownFeatures = FeatureCollection<Geometry, TownProperty>;
+type CountyFeature = Feature<Geometry, CountyProperty>;
+type TownFeature = Feature<Geometry, TownProperty>;
+
+type MapState = {
+  currentLevel: 0 | 1 | 2 | 3;
+  selectedCounty?: CountyFeature;
+  selectedTown?: TownFeature;
+  renderedTowns?: TownFeatures;
+  // selectedVillage?: VillageFeatureShape;
+  // renderedVillages?: VillageFeatureShape[];
 };
 
-// console.log(counties);
+type MapAction =
+  | {
+      type: "down";
+      payload:
+        | { type: "county"; feature: CountyFeatures }
+        | { type: "town"; feature: TownFeatures };
+      // | { type: "village"; feature: VillageFeatures };
+    }
+  | {
+      type: "up";
+    };
 
-// @ts-expect-error
-const towns = topojson.feature(townTopology, townTopology.objects.towns) as {
-  type: "FeatureCollection";
-  features: TownFeatureShape[];
-};
+type TooltipDataType = string;
 
-function filterTownFeatures(county: CountyFeatureShape) {
+const counties = topojson.feature<CountyProperty>(
+  districtTopojson as unknown as TopoJSON.Topology,
+  districtTopojson.objects
+    .counties as TopoJSON.GeometryCollection<CountyProperty>
+);
+
+// const counties = topojson.feature(
+//   countyTopology as unknown as TopoJSON.Topology,
+//   countyTopology.objects.counties as TopoJSON.GeometryCollection
+// ) as unknown as {
+//   type: "FeatureCollection";
+//   features: CountyFeatureShape[];
+// };
+
+console.log(counties);
+
+const towns = topojson.feature<TownProperty>(
+  districtTopojson as unknown as TopoJSON.Topology,
+  districtTopojson.objects.towns as TopoJSON.GeometryCollection<TownProperty>
+);
+
+function filterTownFeatures(
+  county: Feature<Geometry, CountyProperty>
+): TownFeatures {
   return towns.features.filter(
     (f) => f.properties.countyName === county.properties.countyName
   );
@@ -143,7 +180,7 @@ export default function TaiwanMap({
     >
       <svg id="map-svg" width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
-        <Mercator<CountyFeatureShape>
+        <Mercator<CountyFeature>
           data={counties.features}
           scale={scale}
           translate={[centerX, centerY]}
@@ -180,7 +217,7 @@ export default function TaiwanMap({
         </Mercator>
         {state.renderedTowns && state.selectedCounty && (
           <AnimatePresence>
-            <Mercator<TownFeatureShape>
+            <Mercator<TownFeature>
               data={state.renderedTowns}
               scale={scale}
               translate={[centerX, centerY]}
