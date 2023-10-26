@@ -1,14 +1,15 @@
 import { scaleQuantize } from "@visx/scale";
+import { blue, green } from "@mui/material/colors";
 import electionResult from "@/data/electionResult.json";
 
 function getDistricColorMap(GreenWin: number[], BlueWin: number[]) {
   const colorGreenWin = scaleQuantize({
     domain: [Math.min(...GreenWin), Math.max(...GreenWin)],
-    range: ["#c8e6c9", "#81c784", "#4caf50", "#388e3c", "#1b5e20"],
+    range: [green[300], green[600], green[900]],
   });
   const colorBlueWin = scaleQuantize({
     domain: [Math.min(...BlueWin), Math.max(...BlueWin)],
-    range: ["#bbdefb", "#64b5f6", "#2196f3", "#1976d2", "#0d47a1"],
+    range: [blue[300], blue[600], blue[900]],
   });
 
   return (countyName: string) => {

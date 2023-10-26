@@ -52,7 +52,7 @@ video {
   width: 100%;
 }
 
-#map-svg path {
+.map-path {
   transition: 0.5s;
 }
 

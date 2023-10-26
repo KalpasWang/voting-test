@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 import { Mercator } from "@visx/geo";
 import * as topojson from "topojson-client";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,74 +10,40 @@ import {
   useTooltip,
   useTooltipInPortal,
 } from "@visx/tooltip";
+import type { Topology, GeometryCollection } from "topojson-specification";
+import type { Feature, Geometry } from "geojson";
 import { getCountyBlueWinArray, getCountyGreenWinArray } from "@/utils/helpers";
-import countyTopology from "@/data/taiwan-county.json";
-import townTopology from "@/data/taiwan-town.json";
 import electionResult from "@/data/electionResult.json";
-import districtTopojson from "@/data/towns-10t.json";
+import districtsTopology from "@/data/towns-10t.json";
 import getDistricColorMap from "@/utils/getDistrictColor";
-import { Feature, FeatureCollection, Geometry } from "geojson";
+import type {
+  CountyFeature,
+  CountyProperty,
+  MapAction,
+  MapState,
+  TooltipDataType,
+  TownFeature,
+  TownProperty,
+} from "@/types";
 
-export type GeoMercatorProps = {
+type TaiwanMapProps = {
   width: number;
   height: number;
-  events?: boolean;
 };
-
-type CountyFeatures = FeatureCollection<Geometry, CountyProperty>;
-type TownFeatures = FeatureCollection<Geometry, TownProperty>;
-type CountyFeature = Feature<Geometry, CountyProperty>;
-type TownFeature = Feature<Geometry, TownProperty>;
-
-type MapState = {
-  currentLevel: 0 | 1 | 2 | 3;
-  selectedCounty?: CountyFeature;
-  selectedTown?: TownFeature;
-  renderedTowns?: TownFeatures;
-  // selectedVillage?: VillageFeatureShape;
-  // renderedVillages?: VillageFeatureShape[];
-};
-
-type MapAction =
-  | {
-      type: "down";
-      payload:
-        | { type: "county"; feature: CountyFeatures }
-        | { type: "town"; feature: TownFeatures };
-      // | { type: "village"; feature: VillageFeatures };
-    }
-  | {
-      type: "up";
-    };
-
-type TooltipDataType = string;
 
 const counties = topojson.feature<CountyProperty>(
-  districtTopojson as unknown as TopoJSON.Topology,
-  districtTopojson.objects
-    .counties as TopoJSON.GeometryCollection<CountyProperty>
+  districtsTopology as unknown as Topology,
+  districtsTopology.objects.counties as GeometryCollection<CountyProperty>
 );
-
-// const counties = topojson.feature(
-//   countyTopology as unknown as TopoJSON.Topology,
-//   countyTopology.objects.counties as TopoJSON.GeometryCollection
-// ) as unknown as {
-//   type: "FeatureCollection";
-//   features: CountyFeatureShape[];
-// };
-
-console.log(counties);
 
 const towns = topojson.feature<TownProperty>(
-  districtTopojson as unknown as TopoJSON.Topology,
-  districtTopojson.objects.towns as TopoJSON.GeometryCollection<TownProperty>
+  districtsTopology as unknown as Topology,
+  districtsTopology.objects.towns as GeometryCollection<TownProperty>
 );
 
-function filterTownFeatures(
-  county: Feature<Geometry, CountyProperty>
-): TownFeatures {
+function filterTownFeatures(county: CountyFeature): TownFeature[] {
   return towns.features.filter(
-    (f) => f.properties.countyName === county.properties.countyName
+    (f) => f.properties.countyId === county.properties.countyId
   );
 }
 
@@ -121,11 +87,7 @@ const GreenWin = getCountyGreenWinArray(electionResult);
 const BlueWin = getCountyBlueWinArray(electionResult);
 const colors = getDistricColorMap(GreenWin, BlueWin);
 
-export default function TaiwanMap({
-  width,
-  height,
-  events = false,
-}: GeoMercatorProps) {
+export default function TaiwanMap({ width, height }: TaiwanMapProps) {
   const [state, dispatch] = useReducer(mapReducer, { currentLevel: 0 });
   const {
     tooltipData,
@@ -146,14 +108,14 @@ export default function TaiwanMap({
 
   const centerX = width / 2;
   const centerY = height / 2;
-  const scale = 9000;
-  const props: any = {
-    fitSize: state.selectedCounty
-      ? [[width, height], state.selectedCounty]
-      : undefined,
-  };
+  const scale = 1;
 
-  // console.log(selectedCounty);
+  useEffect(() => {
+    const nodes = document.getElementsByClassName("district");
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].classList.add("map-path");
+    }
+  });
 
   // event handlers
   const handlePointerMove = useCallback(
@@ -173,11 +135,7 @@ export default function TaiwanMap({
   );
 
   return (
-    <div
-      ref={containerRef}
-      style={{ minWidth: width, minHeight: height }}
-      className="relative"
-    >
+    <div ref={containerRef}>
       <svg id="map-svg" width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
         <Mercator<CountyFeature>
@@ -186,18 +144,18 @@ export default function TaiwanMap({
           translate={[centerX, centerY]}
           center={[120.751864, 24.075998]}
           // @ts-ignore
-          fitSize={[[width, height], counties]}
+          fitSize={[[width, height], state.selectedCounty || counties]}
         >
           {(mercator) => (
-            <g className="relative">
+            <g>
               {mercator.features.map(({ feature, path }, i) => {
                 return (
                   <path
-                    className="district relative"
-                    key={`county-feature-${i}`}
+                    className="district"
+                    key={`county-${i}`}
                     d={path || ""}
                     fill={colors(feature.properties.countyName)}
-                    stroke={"#000"}
+                    stroke={"#333"}
                     strokeWidth={1}
                     onClick={() =>
                       dispatch({
@@ -233,17 +191,14 @@ export default function TaiwanMap({
                 >
                   {mercator.features.map(({ feature, path }, i) => (
                     <path
-                      key={`town-feature-${i}`}
-                      className="district relative selected"
+                      key={`town-${i}`}
+                      className="district selected"
                       d={path || ""}
                       fill={"#f0f0f0"}
-                      stroke={"#000"}
+                      stroke={"#333"}
                       strokeWidth={1}
                       onClick={() => {
-                        if (events)
-                          alert(
-                            `Clicked: ${feature.properties.townName} (${feature.properties.townId})`
-                          );
+                        alert(`Clicked: ${feature.properties.townName}`);
                       }}
                     ></path>
                   ))}
