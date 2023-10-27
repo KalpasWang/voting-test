@@ -11,11 +11,13 @@ import {
   useTooltipInPortal,
 } from "@visx/tooltip";
 import type { Topology, GeometryCollection } from "topojson-specification";
-import type { Feature, Geometry } from "geojson";
-import { getCountyBlueWinArray, getCountyGreenWinArray } from "@/utils/helpers";
+import {
+  getCountyBlueWinArray,
+  getCountyGreenWinArray,
+  getDistricColorMap,
+} from "@/utils/helpers";
 import electionResult from "@/data/electionResult.json";
 import districtsTopology from "@/data/towns-10t.json";
-import getDistricColorMap from "@/utils/getDistrictColor";
 import type {
   CountyFeature,
   CountyProperty,

@@ -10,7 +10,7 @@
   "votingRate": 74.9,
   "counties": [
     {
-      "countyName": "臺北市",
+      "countyName": "台北市",
       "candidate1": 70769,
       "candidate2": 685830,
       "candidate3": 875854,
@@ -43,7 +43,7 @@
       "votingRate": 74.42
     },
     {
-      "countyName": "臺中市",
+      "countyName": "台中市",
       "candidate1": 84800,
       "candidate2": 646366,
       "candidate3": 967304,
@@ -54,7 +54,7 @@
       "votingRate": 76.36
     },
     {
-      "countyName": "臺南市",
+      "countyName": "台南市",
       "candidate1": 41075,
       "candidate2": 339702,
       "candidate3": 786471,
@@ -320,7 +320,7 @@
       ]
     },
     {
-      "countyName": "臺東縣",
+      "countyName": "台東縣",
       "candidate1": 4163,
       "candidate2": 67413,
       "candidate3": 44092,
