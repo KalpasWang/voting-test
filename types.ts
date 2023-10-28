@@ -1,5 +1,8 @@
 import { Feature, FeatureCollection, Geometry } from "geojson";
 
+// districts type
+export type District = "county" | "town";
+
 // election data type
 export type ElectionResult = {
   electionRegion: string;
@@ -26,12 +29,20 @@ export type CountyVoteResult = {
   votingRate: number;
 };
 
-// Map type
-export type CountyFeatureCollection = {
-  type: "FeatureCollection";
-  features: CountyFeatureShape[];
+export type TownVoteResult = {
+  countyName: string;
+  townName: string;
+  candidate1: number;
+  candidate2: number;
+  candidate3: number;
+  validVotes: number;
+  invalidVotes: number;
+  totalVotes: number;
+  totalElectors: number;
+  votingRate: number;
 };
 
+// Map type
 export type CountyProperty = {
   countyId: string;
   countyName: string;
@@ -47,49 +58,6 @@ export type TownProperty = {
   townEng: string;
   countyId: string;
   countyCode: string;
-};
-
-type CountyFeatureShape = {
-  type: "Feature";
-  id: string;
-  geometry: { coordinates: [number, number][][]; type: "Polygon" };
-  properties: {
-    countyId: string;
-    countyName: string;
-    countyCode: string;
-    countyEng: string;
-  };
-};
-
-type TownFeatureShape = {
-  type: "Feature";
-  geometry: { coordinates: [number, number][][]; type: "Polygon" };
-  properties: {
-    townId: string;
-    townCode: string;
-    countyName: string;
-    townName: string;
-    townEng: string;
-    countyId: string;
-    countyCode: string;
-  };
-};
-
-type VillageFeatureShape = {
-  type: "Feature";
-  geometry: { coordinates: [number, number][][]; type: "Polygon" };
-  properties: {
-    villCode: string;
-    countyName: string;
-    townName: string;
-    villName: string;
-    villEng: string;
-    countyId: string;
-    countyCode: string;
-    townId: string;
-    townCode: string;
-    note: string;
-  };
 };
 
 export type CountyFeatures = FeatureCollection<Geometry, CountyProperty>;

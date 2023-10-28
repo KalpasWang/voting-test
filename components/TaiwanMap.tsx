@@ -12,11 +12,14 @@ import {
 } from "@visx/tooltip";
 import type { Topology, GeometryCollection } from "topojson-specification";
 import {
+  getBlueWinTowns,
   getCountyBlueWinArray,
   getCountyGreenWinArray,
   getDistricColorMap,
+  getGreenWinTowns,
 } from "@/utils/helpers";
 import electionResult from "@/data/electionResult.json";
+import townsElectionResult from "@/data/townsElectionResult.json";
 import districtsTopology from "@/data/towns-10t.json";
 import type {
   CountyFeature,
@@ -87,7 +90,12 @@ function mapReducer(state: MapState, action: MapAction): MapState {
 // get county's corresponding color
 const GreenWin = getCountyGreenWinArray(electionResult);
 const BlueWin = getCountyBlueWinArray(electionResult);
-const colors = getDistricColorMap(GreenWin, BlueWin);
+const countyColor = getDistricColorMap(GreenWin, BlueWin);
+
+// get town's corresponding color
+const GreenWinTowns = getGreenWinTowns(townsElectionResult);
+const BlueWinTowns = getBlueWinTowns(townsElectionResult);
+const townColor = getDistricColorMap(GreenWinTowns, BlueWinTowns);
 
 export default function TaiwanMap({ width, height }: TaiwanMapProps) {
   const [state, dispatch] = useReducer(mapReducer, { currentLevel: 0 });
@@ -156,7 +164,8 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                     className="district"
                     key={`county-${i}`}
                     d={path || ""}
-                    fill={colors(feature.properties.countyName)}
+                    // @ts-ignore
+                    fill={countyColor(feature.properties.countyName)}
                     stroke={"#333"}
                     strokeWidth={1}
                     onClick={() =>
@@ -196,7 +205,10 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                       key={`town-${i}`}
                       className="district selected"
                       d={path || ""}
-                      fill={"#f0f0f0"}
+                      fill={townColor(
+                        feature.properties.countyName,
+                        feature.properties.townName
+                      )}
                       stroke={"#333"}
                       strokeWidth={1}
                       onClick={() => {
