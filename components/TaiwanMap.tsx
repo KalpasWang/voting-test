@@ -2,15 +2,10 @@
 
 import React, { useCallback, useEffect, useReducer } from "react";
 import { Mercator } from "@visx/geo";
-import * as topojson from "topojson-client";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  TooltipWithBounds,
-  defaultStyles,
-  useTooltip,
-  useTooltipInPortal,
-} from "@visx/tooltip";
-import type { Topology, GeometryCollection } from "topojson-specification";
+import { TooltipWithBounds, defaultStyles, useTooltip } from "@visx/tooltip";
+import { localPoint } from "@visx/event";
+import { counties, towns } from "@/utils/districtsGeoData";
 import {
   getBlueWinCountys,
   getGreenWinCountys,
@@ -20,31 +15,18 @@ import {
 } from "@/utils/helpers";
 import voteResult from "@/data/voteResult.json";
 import townsVoteResult from "@/data/townsVoteResult.json";
-import districtsTopology from "@/data/towns-10t.json";
 import type {
   CountyFeature,
-  CountyProperty,
   MapAction,
   MapState,
   TooltipDataType,
   TownFeature,
-  TownProperty,
 } from "@/types";
 
 type TaiwanMapProps = {
   width: number;
   height: number;
 };
-
-const counties = topojson.feature<CountyProperty>(
-  districtsTopology as unknown as Topology,
-  districtsTopology.objects.counties as GeometryCollection<CountyProperty>
-);
-
-const towns = topojson.feature<TownProperty>(
-  districtsTopology as unknown as Topology,
-  districtsTopology.objects.towns as GeometryCollection<TownProperty>
-);
 
 function filterTownFeatures(county: CountyFeature): TownFeature[] {
   return towns.features.filter(
@@ -112,9 +94,6 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
     tooltipTop: height / 2,
     tooltipData: "",
   });
-  const { containerRef, containerBounds } = useTooltipInPortal({
-    detectBounds: true,
-  });
 
   const centerX = width / 2;
   const centerY = height / 2;
@@ -130,22 +109,18 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
   // event handlers
   const handlePointerMove = useCallback(
     (event: React.PointerEvent<SVGPathElement>, data: TooltipDataType) => {
-      // coordinates should be relative to the container in which Tooltip is rendered
-      const containerX =
-        ("clientX" in event ? event.clientX : 0) - containerBounds.left;
-      const containerY =
-        ("clientY" in event ? event.clientY : 0) - containerBounds.top;
+      const { x, y } = localPoint(event) || { x: 0, y: 0 };
       showTooltip({
-        tooltipLeft: containerX,
-        tooltipTop: containerY,
+        tooltipLeft: x,
+        tooltipTop: y,
         tooltipData: data,
       });
     },
-    [showTooltip, containerBounds]
+    [showTooltip]
   );
 
   return (
-    <div ref={containerRef}>
+    <div>
       <svg id="map-svg" width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
         <Mercator<CountyFeature>
@@ -222,13 +197,17 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
           </AnimatePresence>
         )}
       </svg>
-      <button
-        className="bg-black text-gray-50 absolute top-2 left-2"
-        style={{ display: state.currentLevel === 0 ? "none" : "inline-block" }}
-        onClick={() => dispatch({ type: "up" })}
-      >
-        back
-      </button>
+      {state.currentLevel > 0 && (
+        <button
+          className="bg-black text-gray-50 absolute top-2 left-2"
+          style={{
+            display: state.currentLevel === 0 ? "none" : "inline-block",
+          }}
+          onClick={() => dispatch({ type: "up" })}
+        >
+          back
+        </button>
+      )}
       {tooltipOpen && (
         <TooltipWithBounds
           key={Math.random()} // needed for bounds to update correctly
