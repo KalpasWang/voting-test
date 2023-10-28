@@ -1,21 +1,21 @@
 import { scaleQuantize } from "@visx/scale";
 import { blue, green, grey } from "@mui/material/colors";
-import electionResult from "@/data/electionResult.json";
-import townsElectionResult from "@/data/townsElectionResult.json";
+import voteResult from "@/data/voteResult.json";
+import townsVoteResult from "@/data/townsVoteResult.json";
 import {
   CountyVoteResult,
   District,
-  ElectionResult,
+  VoteResult,
   TownVoteResult,
 } from "@/types";
 
-export function getCountyGreenWinArray(data: ElectionResult) {
+export function getGreenWinCountys(data: VoteResult) {
   return data.counties
     .filter((c) => c.candidate3 > c.candidate2)
     .map((c) => (c.candidate3 - c.candidate2) / c.totalVotes);
 }
 
-export function getCountyBlueWinArray(data: ElectionResult) {
+export function getBlueWinCountys(data: VoteResult) {
   return data.counties
     .filter((c) => c.candidate2 > c.candidate3)
     .map((c) => (c.candidate2 - c.candidate3) / c.totalVotes);
@@ -49,14 +49,12 @@ export function getDistricColorMap(
   });
 
   function getCountyColor(countyName: string) {
-    const county = electionResult.counties.find(
-      (c) => c.countyName === countyName
-    );
+    const county = voteResult.counties.find((c) => c.countyName === countyName);
     return mapColor(county);
   }
 
   function getTownColor(countyName: string, townName: string) {
-    const town = townsElectionResult.find(
+    const town = townsVoteResult.find(
       (t) => t.countyName === countyName && t.townName === townName
     );
     return mapColor(town);

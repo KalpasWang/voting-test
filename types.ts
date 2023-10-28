@@ -4,7 +4,7 @@ import { Feature, FeatureCollection, Geometry } from "geojson";
 export type District = "county" | "town";
 
 // election data type
-export type ElectionResult = {
+export type VoteResult = {
   electionRegion: string;
   candidate1: number;
   candidate2: number;

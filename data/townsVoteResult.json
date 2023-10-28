@@ -1,7 +1,6 @@
 [
   {
     "countyName": "台北市",
-    "townId": "A01",
     "townName": "松山區",
     "candidate1": 5436,
     "candidate2": 55918,
@@ -14,7 +13,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A02",
     "townName": "信義區",
     "candidate1": 5878,
     "candidate2": 62353,
@@ -27,7 +25,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A03",
     "townName": "大安區",
     "candidate1": 7534,
     "candidate2": 85490,
@@ -40,7 +37,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A04",
     "townName": "中山區",
     "candidate1": 6367,
     "candidate2": 56491,
@@ -53,7 +49,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A05",
     "townName": "中正區",
     "candidate1": 4188,
     "candidate2": 41461,
@@ -66,7 +61,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A06",
     "townName": "大同區",
     "candidate1": 3463,
     "candidate2": 24673,
@@ -79,7 +73,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A07",
     "townName": "萬華區",
     "candidate1": 5008,
     "candidate2": 46700,
@@ -92,7 +85,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A08",
     "townName": "文山區",
     "candidate1": 7502,
     "candidate2": 82305,
@@ -105,7 +97,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A09",
     "townName": "南港區",
     "candidate1": 3409,
     "candidate2": 30968,
@@ -118,7 +109,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A10",
     "townName": "內湖區",
     "candidate1": 8356,
     "candidate2": 74437,
@@ -131,7 +121,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A11",
     "townName": "士林區",
     "candidate1": 7185,
     "candidate2": 65183,
@@ -144,7 +133,6 @@
   },
   {
     "countyName": "台北市",
-    "townId": "A12",
     "townName": "北投區",
     "candidate1": 6443,
     "candidate2": 59851,
@@ -157,7 +145,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F14",
     "townName": "板橋區",
     "candidate1": 15719,
     "candidate2": 123922,
@@ -170,7 +157,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F05",
     "townName": "三重區",
     "candidate1": 11087,
     "candidate2": 78055,
@@ -183,7 +169,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F18",
     "townName": "中和區",
     "candidate1": 12066,
     "candidate2": 120502,
@@ -196,7 +181,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F04",
     "townName": "永和區",
     "candidate1": 6286,
     "candidate2": 69190,
@@ -209,7 +193,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F01",
     "townName": "新莊區",
     "candidate1": 11772,
     "candidate2": 83491,
@@ -222,7 +205,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F06",
     "townName": "新店區",
     "candidate1": 8175,
     "candidate2": 99844,
@@ -235,7 +217,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F17",
     "townName": "樹林區",
     "candidate1": 5318,
     "candidate2": 38429,
@@ -248,7 +229,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F16",
     "townName": "鶯歌區",
     "candidate1": 2510,
     "candidate2": 18102,
@@ -261,7 +241,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F15",
     "townName": "三峽區",
     "candidate1": 3027,
     "candidate2": 25338,
@@ -274,7 +253,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F10",
     "townName": "淡水區",
     "candidate1": 5054,
     "candidate2": 44807,
@@ -287,7 +265,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F28",
     "townName": "汐止區",
     "candidate1": 5850,
     "candidate2": 53644,
@@ -300,7 +277,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F12",
     "townName": "瑞芳區",
     "candidate1": 1023,
     "candidate2": 10072,
@@ -313,7 +289,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F13",
     "townName": "土城區",
     "candidate1": 6899,
     "candidate2": 52751,
@@ -326,7 +301,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F14",
     "townName": "蘆洲區",
     "candidate1": 5504,
     "candidate2": 36875,
@@ -339,7 +313,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F15",
     "townName": "五股區",
     "candidate1": 2391,
     "candidate2": 17969,
@@ -352,7 +325,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F06",
     "townName": "泰山區",
     "candidate1": 2052,
     "candidate2": 16715,
@@ -365,7 +337,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F17",
     "townName": "林口區",
     "candidate1": 3501,
     "candidate2": 26140,
@@ -378,7 +349,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F09",
     "townName": "深坑區",
     "candidate1": 617,
     "candidate2": 6374,
@@ -391,7 +361,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F08",
     "townName": "石碇區",
     "candidate1": 171,
     "candidate2": 1592,
@@ -404,7 +373,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F20",
     "townName": "坪林區",
     "candidate1": 132,
     "candidate2": 1362,
@@ -417,7 +385,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F21",
     "townName": "三芝區",
     "candidate1": 512,
     "candidate2": 5605,
@@ -430,7 +397,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F31",
     "townName": "石門區",
     "candidate1": 249,
     "candidate2": 2871,
@@ -443,7 +409,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F01",
     "townName": "八里區",
     "candidate1": 1083,
     "candidate2": 8736,
@@ -456,7 +421,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F01",
     "townName": "平溪區",
     "candidate1": 97,
     "candidate2": 1174,
@@ -469,7 +433,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F23",
     "townName": "雙溪區",
     "candidate1": 191,
     "candidate2": 2165,
@@ -482,7 +445,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F24",
     "townName": "貢寮區",
     "candidate1": 234,
     "candidate2": 2113,
@@ -495,7 +457,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F25",
     "townName": "金山區",
     "candidate1": 465,
     "candidate2": 4693,
@@ -508,7 +469,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F26",
     "townName": "萬里區",
     "candidate1": 462,
     "candidate2": 5206,
@@ -521,7 +481,6 @@
   },
   {
     "countyName": "新北市",
-    "townId": "F01",
     "townName": "烏來區",
     "candidate1": 173,
     "candidate2": 1894,
@@ -531,5 +490,161 @@
     "totalVotes": 3727,
     "totalElectors": 5153,
     "votingRate": 72.3268
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "花蓮市",
+    "candidate1": 2403,
+    "candidate2": 33796,
+    "candidate3": 23372,
+    "validVotes": 59571,
+    "invalidVotes": 639,
+    "totalVotes": 60210,
+    "totalElectors": 82320,
+    "votingRate": 73.1414
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "鳳林鎮",
+    "candidate1": 221,
+    "candidate2": 4044,
+    "candidate3": 2280,
+    "validVotes": 6545,
+    "invalidVotes": 73,
+    "totalVotes": 6618,
+    "totalElectors": 9350,
+    "votingRate": 70.7807
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "玉里鎮",
+    "candidate1": 410,
+    "candidate2": 7550,
+    "candidate3": 3936,
+    "validVotes": 11896,
+    "invalidVotes": 138,
+    "totalVotes": 12034,
+    "totalElectors": 19844,
+    "votingRate": 60.643
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "新城鄉",
+    "candidate1": 451,
+    "candidate2": 7130,
+    "candidate3": 4004,
+    "validVotes": 11585,
+    "invalidVotes": 133,
+    "totalVotes": 11718,
+    "totalElectors": 16666,
+    "votingRate": 70.3108
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "吉安鄉",
+    "candidate1": 1900,
+    "candidate2": 28957,
+    "candidate3": 19318,
+    "validVotes": 50175,
+    "invalidVotes": 533,
+    "totalVotes": 50708,
+    "totalElectors": 70382,
+    "votingRate": 72.0468
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "壽豐鄉",
+    "candidate1": 349,
+    "candidate2": 6333,
+    "candidate3": 3840,
+    "validVotes": 10522,
+    "invalidVotes": 147,
+    "totalVotes": 10669,
+    "totalElectors": 15428,
+    "votingRate": 69.1535
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "光復鄉",
+    "candidate1": 209,
+    "candidate2": 4741,
+    "candidate3": 2068,
+    "validVotes": 7018,
+    "invalidVotes": 61,
+    "totalVotes": 7079,
+    "totalElectors": 10999,
+    "votingRate": 64.3604
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "豐濱鄉",
+    "candidate1": 61,
+    "candidate2": 1647,
+    "candidate3": 561,
+    "validVotes": 2269,
+    "invalidVotes": 32,
+    "totalVotes": 2301,
+    "totalElectors": 4036,
+    "votingRate": 57.0119
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "瑞穗鄉",
+    "candidate1": 211,
+    "candidate2": 3856,
+    "candidate3": 1998,
+    "validVotes": 6065,
+    "invalidVotes": 82,
+    "totalVotes": 6147,
+    "totalElectors": 9858,
+    "votingRate": 62.3554
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "富里鄉",
+    "candidate1": 228,
+    "candidate2": 3141,
+    "candidate3": 1740,
+    "validVotes": 5109,
+    "invalidVotes": 71,
+    "totalVotes": 5180,
+    "totalElectors": 8744,
+    "votingRate": 59.2406
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "秀林鄉",
+    "candidate1": 257,
+    "candidate2": 5938,
+    "candidate3": 2155,
+    "validVotes": 8350,
+    "invalidVotes": 108,
+    "totalVotes": 8458,
+    "totalElectors": 12131,
+    "votingRate": 69.7222
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "萬榮鄉",
+    "candidate1": 93,
+    "candidate2": 2410,
+    "candidate3": 706,
+    "validVotes": 3209,
+    "invalidVotes": 31,
+    "totalVotes": 3240,
+    "totalElectors": 5032,
+    "votingRate": 64.3879
+  },
+  {
+    "countyName": "花蓮縣",
+    "townName": "卓溪鄉",
+    "candidate1": 76,
+    "candidate2": 2291,
+    "candidate3": 531,
+    "validVotes": 2898,
+    "invalidVotes": 33,
+    "totalVotes": 2931,
+    "totalElectors": 4768,
+    "votingRate": 61.4723
   }
 ]

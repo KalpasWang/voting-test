@@ -12,14 +12,14 @@ import {
 } from "@visx/tooltip";
 import type { Topology, GeometryCollection } from "topojson-specification";
 import {
+  getBlueWinCountys,
+  getGreenWinCountys,
   getBlueWinTowns,
-  getCountyBlueWinArray,
-  getCountyGreenWinArray,
-  getDistricColorMap,
   getGreenWinTowns,
+  getDistricColorMap,
 } from "@/utils/helpers";
-import electionResult from "@/data/electionResult.json";
-import townsElectionResult from "@/data/townsElectionResult.json";
+import voteResult from "@/data/voteResult.json";
+import townsVoteResult from "@/data/townsVoteResult.json";
 import districtsTopology from "@/data/towns-10t.json";
 import type {
   CountyFeature,
@@ -88,14 +88,14 @@ function mapReducer(state: MapState, action: MapAction): MapState {
 }
 
 // get county's corresponding color
-const GreenWin = getCountyGreenWinArray(electionResult);
-const BlueWin = getCountyBlueWinArray(electionResult);
+const GreenWin = getGreenWinCountys(voteResult);
+const BlueWin = getBlueWinCountys(voteResult);
 const countyColor = getDistricColorMap(GreenWin, BlueWin);
 
 // get town's corresponding color
-const GreenWinTowns = getGreenWinTowns(townsElectionResult);
-const BlueWinTowns = getBlueWinTowns(townsElectionResult);
-const townColor = getDistricColorMap(GreenWinTowns, BlueWinTowns);
+const GreenWinT = getGreenWinTowns(townsVoteResult);
+const BlueWinT = getBlueWinTowns(townsVoteResult);
+const townColor = getDistricColorMap(GreenWinT, BlueWinT, "town");
 
 export default function TaiwanMap({ width, height }: TaiwanMapProps) {
   const [state, dispatch] = useReducer(mapReducer, { currentLevel: 0 });
