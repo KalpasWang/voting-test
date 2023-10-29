@@ -22,6 +22,7 @@ import type {
   TooltipDataType,
   TownFeature,
 } from "@/types";
+import { grey } from "@mui/material/colors";
 
 type TaiwanMapProps = {
   width: number;
@@ -141,7 +142,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                     d={path || ""}
                     // @ts-ignore
                     fill={countyColor(feature.properties.countyName)}
-                    stroke={"#333"}
+                    stroke={grey[200]}
                     strokeWidth={1}
                     onClick={() =>
                       dispatch({
@@ -184,7 +185,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                         feature.properties.countyName,
                         feature.properties.townName
                       )}
-                      stroke={"#333"}
+                      stroke={grey[200]}
                       strokeWidth={1}
                       onClick={() => {
                         alert(`Clicked: ${feature.properties.townName}`);
