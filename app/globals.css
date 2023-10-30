@@ -53,8 +53,7 @@ video {
 }
 
 .map-path {
-  transition: 3s;
-  transition-delay: 0.1s;
+  transition: 2s;
 }
 
 #map-svg path:hover {

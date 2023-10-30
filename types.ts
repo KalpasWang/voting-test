@@ -68,6 +68,8 @@ export type TownFeature = Feature<Geometry, TownProperty>;
 // map reducer type
 export type MapState = {
   currentLevel: 0 | 1 | 2 | 3;
+  currentDistrict?: District;
+  selectedDistrict?: CountyFeature | TownFeature;
   selectedCounty?: CountyFeature;
   selectedTown?: TownFeature;
   renderedTowns?: TownFeature[];
