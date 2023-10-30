@@ -12,6 +12,7 @@ import {
   getBlueWinTowns,
   getGreenWinTowns,
   getDistricColorMap,
+  getTextFill,
 } from "@/utils/helpers";
 import voteResult from "@/data/voteResult.json";
 import townsVoteResult from "@/data/townsVoteResult.json";
@@ -22,7 +23,8 @@ import type {
   TooltipDataType,
   TownFeature,
 } from "@/types";
-import { grey } from "@mui/material/colors";
+import { grey, lime, yellow } from "@mui/material/colors";
+import { geoCentroid } from "d3-geo";
 
 type TaiwanMapProps = {
   width: number;
@@ -101,10 +103,12 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
   const scale = 1;
 
   useEffect(() => {
-    const nodes = document.getElementsByClassName("district");
-    for (let i = 0; i < nodes.length; i++) {
-      nodes[i].classList.add("map-path");
-    }
+    setTimeout(() => {
+      const nodes = document.getElementsByClassName("district");
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].classList.add("map-path");
+      }
+    }, 0);
   });
 
   // event handlers
@@ -135,6 +139,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
           {(mercator) => (
             <g>
               {mercator.features.map(({ feature, path }, i) => {
+                const isSelected = state.selectedCounty?.id === feature.id;
                 return (
                   <path
                     className="district"
@@ -142,8 +147,8 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                     d={path || ""}
                     // @ts-ignore
                     fill={countyColor(feature.properties.countyName)}
-                    stroke={grey[200]}
-                    strokeWidth={1}
+                    stroke={isSelected ? lime[600] : grey[200]}
+                    strokeWidth={isSelected ? 10 : 1}
                     onClick={() =>
                       dispatch({
                         type: "down",
@@ -174,24 +179,41 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, delay: 0.4 }}
+                  transition={{ duration: 0.1, delay: 3 }}
                 >
-                  {mercator.features.map(({ feature, path }, i) => (
-                    <path
-                      key={`town-${i}`}
-                      className="district selected"
-                      d={path || ""}
-                      fill={townColor(
-                        feature.properties.countyName,
-                        feature.properties.townName
-                      )}
-                      stroke={grey[200]}
-                      strokeWidth={1}
-                      onClick={() => {
-                        alert(`Clicked: ${feature.properties.townName}`);
-                      }}
-                    ></path>
-                  ))}
+                  {mercator.features.map(({ feature, path, projection }, i) => {
+                    const coords: [number, number] | null = projection(
+                      geoCentroid(feature)
+                    );
+                    const pathFill = townColor(
+                      feature.properties.countyName,
+                      feature.properties.townName
+                    );
+
+                    return (
+                      <g key={`town-${i}`}>
+                        <path
+                          className="district selectedTown"
+                          d={path || ""}
+                          fill={pathFill}
+                          stroke={grey[200]}
+                          strokeWidth={1}
+                          onClick={() => {
+                            alert(`Clicked: ${feature.properties.townName}`);
+                          }}
+                        ></path>
+                        <text
+                          transform={`translate(${coords})`}
+                          fontSize={Math.max(width / 75, 9)}
+                          fill={getTextFill(pathFill)}
+                          cursor="default"
+                          textAnchor="middle"
+                        >
+                          {feature.properties.townName}
+                        </text>
+                      </g>
+                    );
+                  })}
                 </motion.g>
               )}
             </Mercator>

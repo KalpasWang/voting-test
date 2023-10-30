@@ -1261,6 +1261,18 @@
   },
   {
     "countyName": "澎湖縣",
+    "townName": "馬公市",
+    "candidate1": 1664,
+    "candidate2": 13672,
+    "candidate3": 17203,
+    "validVotes": 32539,
+    "invalidVotes": 391,
+    "totalVotes": 32930,
+    "totalElectors": 52019,
+    "votingRate": 63.3038
+  },
+  {
+    "countyName": "澎湖縣",
     "townName": "湖西鄉",
     "candidate1": 394,
     "candidate2": 2636,
@@ -1321,6 +1333,18 @@
   },
   {
     "countyName": "連江縣",
+    "townName": "南竿鄉",
+    "candidate1": 114,
+    "candidate2": 2875,
+    "candidate3": 784,
+    "validVotes": 3773,
+    "invalidVotes": 53,
+    "totalVotes": 3826,
+    "totalElectors": 6257,
+    "votingRate": 61.1475
+  },
+  {
+    "countyName": "連江縣",
     "townName": "北竿鄉",
     "candidate1": 25,
     "candidate2": 883,
@@ -1357,6 +1381,18 @@
   },
   {
     "countyName": "新竹市",
+    "townName": "東區",
+    "candidate1": 6914,
+    "candidate2": 50693,
+    "candidate3": 65607,
+    "validVotes": 123214,
+    "invalidVotes": 1693,
+    "totalVotes": 124907,
+    "totalElectors": "160914",
+    "votingRate": 77.6235
+  },
+  {
+    "countyName": "新竹市",
     "townName": "北區",
     "candidate1": 4685,
     "candidate2": 35256,
@@ -1378,6 +1414,18 @@
     "totalVotes": 47828,
     "totalElectors": 63567,
     "votingRate": 75.2403
+  },
+  {
+    "countyName": "台中市",
+    "townName": "中區",
+    "candidate1": 442,
+    "candidate2": 3823,
+    "candidate3": 5793,
+    "validVotes": 10058,
+    "invalidVotes": 106,
+    "totalVotes": 10164,
+    "totalElectors": 14230,
+    "votingRate": 71.4266
   },
   {
     "countyName": "台中市",
@@ -1717,6 +1765,18 @@
   },
   {
     "countyName": "台東縣",
+    "townName": "台東市",
+    "candidate1": 2201,
+    "candidate2": 31473,
+    "candidate3": 24898,
+    "validVotes": 58572,
+    "invalidVotes": 576,
+    "totalVotes": 59148,
+    "totalElectors": 84875,
+    "votingRate": 69.6884
+  },
+  {
+    "countyName": "台東縣",
     "townName": "成功鎮",
     "candidate1": 212,
     "candidate2": 4677,
@@ -1894,6 +1954,18 @@
     "totalVotes": 1699,
     "totalElectors": 4067,
     "votingRate": 41.7753
+  },
+  {
+    "countyName": "台南市",
+    "townName": "新營區",
+    "candidate1": 1720,
+    "candidate2": 15517,
+    "candidate3": 28969,
+    "validVotes": 46206,
+    "invalidVotes": 548,
+    "totalVotes": 46754,
+    "totalElectors": 62551,
+    "votingRate": 74.7454
   },
   {
     "countyName": "台南市",
@@ -2329,6 +2401,18 @@
   },
   {
     "countyName": "金門縣",
+    "townName": "金城鎮",
+    "candidate1": 505,
+    "candidate2": 11492,
+    "candidate3": 3170,
+    "validVotes": 15167,
+    "invalidVotes": 128,
+    "totalVotes": 15295,
+    "totalElectors": 37088,
+    "votingRate": 41.2398
+  },
+  {
+    "countyName": "金門縣",
     "townName": "金沙鎮",
     "candidate1": 185,
     "candidate2": 5736,
@@ -2386,6 +2470,18 @@
     "totalVotes": 114,
     "totalElectors": 541,
     "votingRate": 21.0721
+  },
+  {
+    "countyName": "南投縣",
+    "townName": "南投市",
+    "candidate1": 3077,
+    "candidate2": 26690,
+    "candidate3": 30910,
+    "validVotes": 60677,
+    "invalidVotes": 693,
+    "totalVotes": 61370,
+    "totalElectors": 81853,
+    "votingRate": 74.9759
   },
   {
     "countyName": "南投縣",
@@ -2530,6 +2626,18 @@
     "totalVotes": 8276,
     "totalElectors": 12164,
     "votingRate": 68.0368
+  },
+  {
+    "countyName": "屏東縣",
+    "townName": "屏東市",
+    "candidate1": 3963,
+    "candidate2": 48076,
+    "candidate3": 72071,
+    "validVotes": 124110,
+    "invalidVotes": 1235,
+    "totalVotes": 125345,
+    "totalElectors": 164989,
+    "votingRate": 75.9717
   },
   {
     "countyName": "屏東縣",
@@ -3061,6 +3169,18 @@
   },
   {
     "countyName": "苗栗縣",
+    "townName": "苗栗市",
+    "candidate1": 2366,
+    "candidate2": 30335,
+    "candidate3": 20569,
+    "validVotes": 53270,
+    "invalidVotes": 552,
+    "totalVotes": 53822,
+    "totalElectors": 72124,
+    "votingRate": 74.6243
+  },
+  {
+    "countyName": "苗栗縣",
     "townName": "苑裡鎮",
     "candidate1": 1231,
     "candidate2": 9349,
@@ -3262,6 +3382,18 @@
     "totalVotes": 3645,
     "totalElectors": 4946,
     "votingRate": 73.6959
+  },
+  {
+    "countyName": "高雄市",
+    "townName": "鹽埕區",
+    "candidate1": 455,
+    "candidate2": 5270,
+    "candidate3": 10425,
+    "validVotes": 16150,
+    "invalidVotes": 162,
+    "totalVotes": 16312,
+    "totalElectors": 21089,
+    "votingRate": 77.3484
   },
   {
     "countyName": "高雄市",
@@ -3709,6 +3841,18 @@
   },
   {
     "countyName": "基隆市",
+    "townName": "中正區",
+    "candidate1": 1618,
+    "candidate2": 13887,
+    "candidate3": 15540,
+    "validVotes": 31045,
+    "invalidVotes": 383,
+    "totalVotes": 31428,
+    "totalElectors": 44393,
+    "votingRate": 70.7949
+  },
+  {
+    "countyName": "基隆市",
     "townName": "七堵區",
     "candidate1": 1815,
     "candidate2": 13618,
@@ -3778,6 +3922,18 @@
     "totalVotes": 33713,
     "totalElectors": 45152,
     "votingRate": 74.6656
+  },
+  {
+    "countyName": "雲林縣",
+    "townName": "斗六市",
+    "candidate1": 2890,
+    "candidate2": 25971,
+    "candidate3": 37261,
+    "validVotes": 66122,
+    "invalidVotes": 815,
+    "totalVotes": 66937,
+    "totalElectors": "87,242",
+    "votingRate": 76.7257
   },
   {
     "countyName": "雲林縣",
@@ -4009,6 +4165,18 @@
   },
   {
     "countyName": "新竹縣",
+    "townName": "竹北市",
+    "candidate1": 6576,
+    "candidate2": 42591,
+    "candidate3": 56892,
+    "validVotes": 106059,
+    "invalidVotes": 1364,
+    "totalVotes": 107423,
+    "totalElectors": 138419,
+    "votingRate": 77.6071
+  },
+  {
+    "countyName": "新竹縣",
     "townName": "竹東鎮",
     "candidate1": 3202,
     "candidate2": 29892,
@@ -4153,6 +4321,18 @@
   },
   {
     "countyName": "嘉義市",
+    "townName": "東區",
+    "candidate1": 2885,
+    "candidate2": 26977,
+    "candidate3": 43668,
+    "validVotes": 73530,
+    "invalidVotes": 796,
+    "totalVotes": 74326,
+    "totalElectors": 97836,
+    "votingRate": 75.97
+  },
+  {
+    "countyName": "嘉義市",
     "townName": "西區",
     "candidate1": 3319,
     "candidate2": 29292,
@@ -4162,6 +4342,18 @@
     "totalVotes": 89076,
     "totalElectors": 117219,
     "votingRate": 75.9911
+  },
+  {
+    "countyName": "嘉義縣",
+    "townName": "太保市",
+    "candidate1": 905,
+    "candidate2": 6934,
+    "candidate3": 14968,
+    "validVotes": 22807,
+    "invalidVotes": 283,
+    "totalVotes": 23090,
+    "totalElectors": 30690,
+    "votingRate": 75.2362
   },
   {
     "countyName": "嘉義縣",

@@ -83,3 +83,19 @@ export function calcGreenWinRate(district: CountyVoteResult) {
 export function calcBlueWinRate(district: CountyVoteResult) {
   return (district.candidate2 - district.candidate3) / district.totalVotes;
 }
+
+export function getTextFill(pathFill: string) {
+  switch (pathFill) {
+    case green[900]:
+    case blue[900]:
+      return grey[200];
+    case green[600]:
+    case blue[600]:
+      return grey[50];
+    case green[300]:
+    case blue[300]:
+      return grey[900];
+    default:
+      return grey[500]; // default fill is grey 900.
+  }
+}
