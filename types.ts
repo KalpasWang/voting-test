@@ -73,17 +73,14 @@ export type MapState = {
   selectedCounty?: CountyFeature;
   selectedTown?: TownFeature;
   renderedTowns?: TownFeature[];
-  // selectedVillage?: VillageFeatureShape;
-  // renderedVillages?: VillageFeatureShape[];
 };
 
 export type MapAction =
   | {
-      type: "down";
+      type: "goto";
       payload:
         | { type: "county"; feature: CountyFeature }
         | { type: "town"; feature: TownFeature };
-      // | { type: "village"; feature: VillageFeatures };
     }
   | {
       type: "up";

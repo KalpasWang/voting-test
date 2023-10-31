@@ -39,15 +39,11 @@ function filterTownFeatures(county: CountyFeature): TownFeature[] {
 
 function mapReducer(state: MapState, action: MapAction): MapState {
   switch (action.type) {
-    case "down": {
-      const level = state.currentLevel;
+    case "goto": {
       const { type, feature } = action.payload;
-      if (level === 0 && type === "county") {
+      if (type === "county") {
         let renderedTowns = state.renderedTowns;
-        if (
-          state.renderedTowns?.[0].properties.countyName !==
-          feature.properties.countyName
-        ) {
+        if (state.renderedTowns?.[0].id !== feature.id) {
           renderedTowns = filterTownFeatures(feature);
         }
         return {
@@ -59,7 +55,7 @@ function mapReducer(state: MapState, action: MapAction): MapState {
           renderedTowns,
         };
       }
-      if (level === 1 && type === "town") {
+      if (type === "town") {
         return {
           ...state,
           currentLevel: 2,
@@ -177,7 +173,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                     strokeWidth={1}
                     onClick={() =>
                       dispatch({
-                        type: "down",
+                        type: "goto",
                         payload: { type: "county", feature: feature },
                       })
                     }
@@ -203,6 +199,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
           >
             {(mercator) => (
               <motion.g
+                key={state.selectedCounty?.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -236,6 +233,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
             >
               {(mercator) => (
                 <motion.g
+                  key={state.selectedCounty?.id}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -260,7 +258,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                           strokeWidth={1}
                           onClick={() =>
                             dispatch({
-                              type: "down",
+                              type: "goto",
                               payload: { type: "town", feature: feature },
                             })
                           }
