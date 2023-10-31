@@ -1,7 +1,7 @@
-import { scaleQuantize } from "@visx/scale";
+import { scaleQuantile } from "@visx/scale";
 import { blue, green, grey } from "@mui/material/colors";
 import voteResult from "@/data/voteResult.json";
-import townsVoteResult from "@/data/townsVoteResult.json";
+import { townsVoteResult } from "@/data";
 import {
   CountyVoteResult,
   District,
@@ -38,14 +38,14 @@ export function getDistricColorMap(
   BlueWin: number[],
   district: District = "county"
 ) {
-  const colorGreenWin = scaleQuantize({
+  const colorGreenWin = scaleQuantile({
     domain: [Math.min(...GreenWin), Math.max(...GreenWin)],
-    range: [green[300], green[600], green[900]],
+    range: [green[200], green[400], green[600], green[800]],
   });
 
-  const colorBlueWin = scaleQuantize({
+  const colorBlueWin = scaleQuantile({
     domain: [Math.min(...BlueWin), Math.max(...BlueWin)],
-    range: [blue[300], blue[600], blue[900]],
+    range: [blue[200], blue[400], blue[600], blue[800]],
   });
 
   function getCountyColor(countyName: string) {
@@ -86,14 +86,17 @@ export function calcBlueWinRate(district: CountyVoteResult) {
 
 export function getTextFill(pathFill: string) {
   switch (pathFill) {
-    case green[900]:
-    case blue[900]:
+    case green[800]:
+    case blue[800]:
       return grey[200];
     case green[600]:
     case blue[600]:
       return grey[50];
-    case green[300]:
-    case blue[300]:
+    case green[400]:
+    case blue[400]:
+      return grey[900];
+    case green[200]:
+    case blue[200]:
       return grey[900];
     default:
       return grey[500]; // default fill is grey 900.

@@ -5,6 +5,8 @@ import { Mercator } from "@visx/geo";
 import { AnimatePresence, motion } from "framer-motion";
 import { TooltipWithBounds, defaultStyles, useTooltip } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
+import { grey, lime } from "@mui/material/colors";
+import { geoCentroid } from "d3-geo";
 import { counties, towns } from "@/utils/districtsGeoData";
 import {
   getBlueWinCountys,
@@ -14,18 +16,15 @@ import {
   getDistricColorMap,
   getTextFill,
 } from "@/utils/helpers";
-import voteResult from "@/data/voteResult.json";
-import townsVoteResult from "@/data/townsVoteResult.json";
+import { voteResult } from "@/data";
+import { townsVoteResult } from "@/data";
 import type {
   CountyFeature,
-  District,
   MapAction,
   MapState,
   TooltipDataType,
   TownFeature,
 } from "@/types";
-import { grey, lime, yellow } from "@mui/material/colors";
-import { geoCentroid } from "d3-geo";
 
 type TaiwanMapProps = {
   width: number;
@@ -102,9 +101,7 @@ const BlueWin = getBlueWinCountys(voteResult);
 const countyColor = getDistricColorMap(GreenWin, BlueWin);
 
 // get town's corresponding color
-// @ts-ignore
 const GreenWinT = getGreenWinTowns(townsVoteResult);
-// @ts-ignore
 const BlueWinT = getBlueWinTowns(townsVoteResult);
 const townColor = getDistricColorMap(GreenWinT, BlueWinT, "town");
 
