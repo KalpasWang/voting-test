@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useReducer } from "react";
-import { Mercator } from "@visx/geo";
+import { CustomProjection, Mercator } from "@visx/geo";
 import { AnimatePresence, motion } from "framer-motion";
 import { TooltipWithBounds, defaultStyles, useTooltip } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
@@ -25,6 +25,7 @@ import type {
   TooltipDataType,
   TownFeature,
 } from "@/types";
+import mercatorTw from "taiwan-atlas";
 
 type TaiwanMapProps = {
   width: number;
@@ -120,6 +121,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
   const centerX = width / 2;
   const centerY = height / 2;
   const scale = 1;
+  // console.log(mercatorTw());
 
   useEffect(() => {
     setTimeout(() => {
@@ -151,7 +153,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
       <svg id="map-svg" width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
         {/* render counties */}
-        <Mercator<CountyFeature>
+        {/* <Mercator<CountyFeature>
           data={counties.features}
           scale={scale}
           translate={[centerX, centerY]}
@@ -186,7 +188,42 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
               })}
             </g>
           )}
-        </Mercator>
+        </Mercator> */}
+        <CustomProjection<CountyFeature>
+          data={counties.features}
+          projection={mercatorTw}
+          scale={1}
+          // @ts-ignore
+          fitSize={[[width, height], state.selectedDistrict || counties]}
+        >
+          {({ features }) => (
+            <g>
+              {features.map(({ feature, path }, i) => {
+                return (
+                  <path
+                    className="district"
+                    key={`county-${i}`}
+                    d={path || ""}
+                    // @ts-ignore
+                    fill={countyColor(feature.properties.countyName)}
+                    stroke={grey[200]}
+                    strokeWidth={1}
+                    onClick={() =>
+                      dispatch({
+                        type: "goto",
+                        payload: { type: "county", feature: feature },
+                      })
+                    }
+                    onPointerEnter={(e) =>
+                      handlePointerMove(e, feature.properties.countyName)
+                    }
+                    onPointerLeave={() => hideTooltip()}
+                  ></path>
+                );
+              })}
+            </g>
+          )}
+        </CustomProjection>
         {/* render selected county border */}
         {state.selectedCounty && (
           <Mercator<CountyFeature>
