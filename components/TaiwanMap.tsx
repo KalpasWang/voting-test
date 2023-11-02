@@ -7,6 +7,7 @@ import { TooltipWithBounds, defaultStyles, useTooltip } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
 import { grey, lime } from "@mui/material/colors";
 import { geoCentroid } from "d3-geo";
+import mercatorTw from "taiwan-atlas";
 import { counties, towns } from "@/utils/districtsGeoData";
 import {
   getBlueWinCountys,
@@ -25,7 +26,6 @@ import type {
   TooltipDataType,
   TownFeature,
 } from "@/types";
-import mercatorTw from "taiwan-atlas";
 
 type TaiwanMapProps = {
   width: number;
@@ -112,7 +112,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
     showTooltip,
     hideTooltip,
   } = useTooltip<TooltipDataType>({
-    tooltipOpen: true,
+    tooltipOpen: false,
     tooltipLeft: width / 2,
     tooltipTop: height / 2,
     tooltipData: "",
@@ -120,8 +120,10 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
 
   const centerX = width / 2;
   const centerY = height / 2;
+  const center = [120.751864, 24.075998];
   const scale = 1;
-  // console.log(mercatorTw());
+  const offsetX = width / 6;
+  const offsetY = height / 6;
 
   useEffect(() => {
     setTimeout(() => {
@@ -129,7 +131,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].classList.add("map-path");
       }
-    }, 1000);
+    }, 500);
   });
 
   // event handlers
@@ -153,46 +155,9 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
       <svg id="map-svg" width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
         {/* render counties */}
-        {/* <Mercator<CountyFeature>
-          data={counties.features}
-          scale={scale}
-          translate={[centerX, centerY]}
-          center={[120.751864, 24.075998]}
-          // @ts-ignore
-          fitSize={[[width, height], state.selectedDistrict || counties]}
-        >
-          {(mercator) => (
-            <g>
-              {mercator.features.map(({ feature, path }, i) => {
-                return (
-                  <path
-                    className="district"
-                    key={`county-${i}`}
-                    d={path || ""}
-                    // @ts-ignore
-                    fill={countyColor(feature.properties.countyName)}
-                    stroke={grey[200]}
-                    strokeWidth={1}
-                    onClick={() =>
-                      dispatch({
-                        type: "goto",
-                        payload: { type: "county", feature: feature },
-                      })
-                    }
-                    onPointerEnter={(e) =>
-                      handlePointerMove(e, feature.properties.countyName)
-                    }
-                    onPointerLeave={() => hideTooltip()}
-                  ></path>
-                );
-              })}
-            </g>
-          )}
-        </Mercator> */}
         <CustomProjection<CountyFeature>
           data={counties.features}
           projection={mercatorTw}
-          scale={1}
           // @ts-ignore
           fitSize={[[width, height], state.selectedDistrict || counties]}
         >
@@ -226,13 +191,21 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
         </CustomProjection>
         {/* render selected county border */}
         {state.selectedCounty && (
-          <Mercator<CountyFeature>
+          <CustomProjection<CountyFeature>
             data={[state.selectedCounty]}
-            scale={scale}
-            translate={[centerX, centerY]}
-            center={[120.751864, 24.075998]}
+            projection={mercatorTw}
+            // scale={scale}
+            // translate={[centerX, centerY]}
+            // center={[120.751864, 24.075998]}
             // @ts-ignore
-            fitSize={[[width, height], state.selectedDistrict || counties]}
+            // fitSize={[[width, height], state.selectedDistrict || counties]}
+            fitExtent={
+              ([
+                [offsetX, offsetY],
+                [width - offsetX, height - offsetY],
+              ],
+              state.selectedDistrict || counties)
+            }
           >
             {(mercator) => (
               <motion.g
@@ -256,17 +229,26 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                 })}
               </motion.g>
             )}
-          </Mercator>
+          </CustomProjection>
         )}
         {/* render towns of selected county*/}
         {state.renderedTowns && state.selectedDistrict && (
           <AnimatePresence>
-            <Mercator<TownFeature>
+            <CustomProjection<TownFeature>
               data={state.renderedTowns}
-              scale={scale}
-              translate={[centerX, centerY]}
-              center={[120.751864, 23.575998]}
-              fitSize={[[width, height], state.selectedDistrict]}
+              projection={mercatorTw}
+              // scale={scale}
+              // translate={[centerX, centerY]}
+              // center={[120.751864, 23.575998]}
+              // fitSize={[[width, height], state.selectedDistrict]}
+              // @ts-expect-error
+              fitExtent={
+                ([
+                  [offsetX, offsetY],
+                  [width - offsetX, height - offsetY],
+                ],
+                state.selectedDistrict)
+              }
             >
               {(mercator) => (
                 <motion.g
@@ -319,7 +301,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                   })}
                 </motion.g>
               )}
-            </Mercator>
+            </CustomProjection>
           </AnimatePresence>
         )}
       </svg>
