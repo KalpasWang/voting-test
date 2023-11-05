@@ -179,7 +179,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
       )
       .on("pointerleave", (e) => handlePointerMove(e, ""))
       .transition()
-      .duration(1500)
+      .duration(2200)
       // @ts-ignore
       .attr("fill", (feature) => countyColor(feature.properties.countyName))
       .attr("stroke", grey[200])
@@ -193,12 +193,19 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
     const data: CountyFeature[] = chosen ? [chosen] : [];
 
     const g2 = d3.select(countyBorderRef.current);
-    g2.selectAll("path")
+    g2.selectAll<SVGPathElement, CountyFeature>("path")
       .data(data)
-      .join("path")
-      .transition()
-      .delay(2000)
-      .duration(200)
+      .join(
+        (enter) =>
+          enter
+            .append("path")
+            .style("opacity", 0)
+            .transition()
+            .delay(2500)
+            .style("opacity", 1),
+        (update) => update.transition().duration(2200),
+        (exit) => exit.remove()
+      )
       .attr("fill", "none")
       .attr("stroke", lime[600])
       .attr("stroke-width", 8)
@@ -211,18 +218,25 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
     const data: TownFeature[] = towns ? towns : [];
 
     const g3 = d3.select(townsRef.current);
-    g3.selectAll("path")
+    g3.selectAll<SVGPathElement, TownFeature>("path")
       .data(data)
-      .join("path")
+      .join(
+        (enter) =>
+          enter
+            .append("path")
+            .style("opacity", 0)
+            .transition()
+            .delay(2500)
+            .style("opacity", 1),
+        (update) => update.transition().duration(2200),
+        (exit) => exit.remove()
+      )
       .on("click", (event, feature) =>
         dispatch({
           type: "goto",
           payload: { type: "town", feature: feature },
         })
       )
-      .transition()
-      .delay(2000)
-      .duration(200)
       .attr("fill", (f) =>
         townColor(f.properties.countyName, f.properties.townName)
       )
@@ -230,12 +244,20 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
       .attr("stroke-width", 1)
       .attr("d", (feature) => pathGenerator(feature));
 
-    g3.selectAll("text")
+    // show towns name
+    g3.selectAll<SVGTextElement, TownFeature>("text")
       .data(data)
-      .join("text")
-      .transition()
-      .delay(2000)
-      .duration(200)
+      .join(
+        (enter) =>
+          enter
+            .append("text")
+            .style("opacity", 0)
+            .transition()
+            .delay(2500)
+            .style("opacity", 1),
+        (update) => update.transition().duration(2200),
+        (exit) => exit.remove()
+      )
       .text((f) => f.properties.townName)
       .attr("fill", (f) => getTextFill(""))
       .attr("transform", (feature) => {
@@ -368,7 +390,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
         </button>
       )}
       {/* show district name */}
-      {tooltipOpen && (
+      {/* {tooltipOpen && (
         <TooltipWithBounds
           key={Math.random()} // needed for bounds to update correctly
           left={tooltipLeft}
@@ -381,7 +403,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
         >
           {tooltipData}
         </TooltipWithBounds>
-      )}
+      )} */}
     </div>
   );
 }
