@@ -1,19 +1,10 @@
 "use client";
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-} from "react";
-import { CustomProjection, Mercator } from "@visx/geo";
+import React, { useCallback, useEffect, useMemo, useReducer } from "react";
+import { Mercator } from "@visx/geo";
 import { AnimatePresence, motion } from "framer-motion";
-import { TooltipWithBounds, defaultStyles, useTooltip } from "@visx/tooltip";
-import { localPoint } from "@visx/event";
 import { grey, lime } from "@mui/material/colors";
 import { geoCentroid, geoMercator } from "d3-geo";
-import * as d3 from "d3";
 import { counties, towns } from "@/utils/districtsGeoData";
 import {
   getBlueWinCountys,
@@ -25,14 +16,7 @@ import {
 } from "@/utils/helpers";
 import { voteResult } from "@/data";
 import { townsVoteResult } from "@/data";
-import type {
-  CountyFeature,
-  MapAction,
-  MapState,
-  TooltipDataType,
-  TownFeature,
-} from "@/types";
-import mercatorTw from "taiwan-atlas";
+import type { CountyFeature, MapAction, MapState, TownFeature } from "@/types";
 
 type TaiwanMapProps = {
   width: number;
@@ -110,27 +94,10 @@ const BlueWinT = getBlueWinTowns(townsVoteResult);
 const townColor = getDistricColorMap(GreenWinT, BlueWinT, "town");
 
 export default function TaiwanMap({ width, height }: TaiwanMapProps) {
-  const countiesRef = useRef<SVGGElement>(null);
-  const countyBorderRef = useRef<SVGGElement>(null);
-  const townsRef = useRef<SVGGElement>(null);
   const [state, dispatch] = useReducer(mapReducer, { currentLevel: 0 });
-  const {
-    tooltipData,
-    tooltipLeft = 0,
-    tooltipTop = 0,
-    tooltipOpen,
-    showTooltip,
-  } = useTooltip<TooltipDataType>({
-    tooltipOpen: true,
-    tooltipLeft: width / 2,
-    tooltipTop: height / 2,
-    tooltipData: "",
-  });
-
   const centerX = width / 2;
   const centerY = height / 2;
-  const center: [number, number] = [275, 300];
-  const scale = 8000;
+  const scale = 1;
   const offsetX = width / 20;
   const offsetY = height / 15;
   const size: [[number, number], [number, number]] = useMemo(
@@ -140,144 +107,56 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
     ],
     [width, height, offsetX, offsetY]
   );
-  const projection = mercatorTw().fitExtent(
-    size,
-    state.selectedDistrict || counties
-  );
-  const pathGenerator = d3.geoPath().projection(projection);
 
-  // event handlers
-  const handlePointerMove = useCallback(
-    (event: React.PointerEvent<SVGPathElement>, data: TooltipDataType) => {
-      const countyName = state.selectedCounty?.properties.countyName;
-      if (countyName === data && state.currentLevel > 0) return;
-
-      const { x, y } = localPoint(event) || { x: 0, y: 0 };
-      showTooltip({
-        tooltipLeft: x,
-        tooltipTop: y,
-        tooltipData: data,
-      });
-    },
-    [showTooltip, state]
-  );
-
-  // render counties
   useEffect(() => {
-    const g1 = d3.select(countiesRef.current);
-    g1.selectAll("path")
-      .data(counties.features)
-      .join("path")
-      .on("click", (event, feature) => {
-        dispatch({
-          type: "goto",
-          payload: { type: "county", feature: feature },
-        });
-      })
-      .on("pointerenter", (e, f) =>
-        handlePointerMove(e, f.properties.countyName)
-      )
-      .on("pointerleave", (e) => handlePointerMove(e, ""))
-      .transition()
-      .duration(2200)
-      // @ts-ignore
-      .attr("fill", (feature) => countyColor(feature.properties.countyName))
-      .attr("stroke", grey[200])
-      .attr("stroke-width", 1)
-      .attr("d", (feature) => pathGenerator(feature));
-  }, [projection, pathGenerator, handlePointerMove]);
-
-  // render selected county border
-  useEffect(() => {
-    const chosen = state.selectedCounty;
-    const data: CountyFeature[] = chosen ? [chosen] : [];
-
-    const g2 = d3.select(countyBorderRef.current);
-    g2.selectAll<SVGPathElement, CountyFeature>("path")
-      .data(data)
-      .join(
-        (enter) =>
-          enter
-            .append("path")
-            .style("opacity", 0)
-            .transition()
-            .delay(2500)
-            .style("opacity", 1),
-        (update) => update.transition().duration(2200),
-        (exit) => exit.remove()
-      )
-      .attr("fill", "none")
-      .attr("stroke", lime[600])
-      .attr("stroke-width", 8)
-      .attr("d", (feature) => pathGenerator(feature));
-  }, [state.selectedCounty, pathGenerator]);
-
-  // render towns of the selected county
-  useEffect(() => {
-    const towns = state.renderedTowns;
-    const data: TownFeature[] = towns ? towns : [];
-
-    const g3 = d3.select(townsRef.current);
-    g3.selectAll<SVGPathElement, TownFeature>("path")
-      .data(data)
-      .join(
-        (enter) =>
-          enter
-            .append("path")
-            .style("opacity", 0)
-            .transition()
-            .delay(2500)
-            .style("opacity", 1),
-        (update) => update.transition().duration(2200),
-        (exit) => exit.remove()
-      )
-      .on("click", (event, feature) =>
-        dispatch({
-          type: "goto",
-          payload: { type: "town", feature: feature },
-        })
-      )
-      .attr("fill", (f) =>
-        townColor(f.properties.countyName, f.properties.townName)
-      )
-      .attr("stroke", grey[200])
-      .attr("stroke-width", 1)
-      .attr("d", (feature) => pathGenerator(feature));
-
-    // show towns name
-    g3.selectAll<SVGTextElement, TownFeature>("text")
-      .data(data)
-      .join(
-        (enter) =>
-          enter
-            .append("text")
-            .style("opacity", 0)
-            .transition()
-            .delay(2500)
-            .style("opacity", 1),
-        (update) => update.transition().duration(2200),
-        (exit) => exit.remove()
-      )
-      .text((f) => f.properties.townName)
-      .attr("fill", (f) => getTextFill(""))
-      .attr("transform", (feature) => {
-        const coords: [number, number] | null = projection(
-          geoCentroid(feature)
-        );
-        return `translate(${coords})`;
-      })
-      .attr("font-size", "0.8rem");
-  }, [state.renderedTowns, pathGenerator, projection]);
+    setTimeout(() => {
+      const nodes = document.getElementsByClassName("district");
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].classList.add("map-path");
+      }
+    }, 1000);
+  });
 
   return (
     <div>
       <svg id="map-svg" width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
-        <g ref={countiesRef} className="counties"></g>
-        <g ref={countyBorderRef} className="county-border"></g>
-        <g ref={townsRef} className="towns"></g>
-        {/* {state.selectedCounty && (
-          <CustomProjection<CountyFeature>
+        {/* render counties */}
+        <Mercator<CountyFeature>
+          data={counties.features}
+          scale={scale}
+          translate={[centerX, centerY]}
+          center={[120.751864, 24.075998]}
+          // @ts-ignore
+          fitExtent={[size, state.selectedDistrict || counties]}
+        >
+          {(mercator) => (
+            <g>
+              {mercator.features.map(({ feature, path }, i) => {
+                return (
+                  <path
+                    className="district"
+                    key={`county-${i}`}
+                    d={path || ""}
+                    // @ts-ignore
+                    fill={countyColor(feature.properties.countyName)}
+                    stroke={grey[200]}
+                    strokeWidth={1}
+                    onClick={() =>
+                      dispatch({
+                        type: "goto",
+                        payload: { type: "county", feature: feature },
+                      })
+                    }
+                  ></path>
+                );
+              })}
+            </g>
+          )}
+        </Mercator>
+        {/* render selected county border */}
+        {state.selectedCounty && (
+          <Mercator<CountyFeature>
             data={[state.selectedCounty]}
             projection={geoMercator}
             scale={scale}
@@ -308,14 +187,13 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                 })}
               </motion.g>
             )}
-          </CustomProjection>
-        )} */}
+          </Mercator>
+        )}
         {/* render towns of selected county*/}
-        {/* {state.renderedTowns && state.selectedDistrict && (
+        {state.renderedTowns && state.selectedDistrict && (
           <AnimatePresence>
-            <CustomProjection<TownFeature>
+            <Mercator<TownFeature>
               data={state.renderedTowns}
-              projection={geoMercator}
               scale={scale}
               translate={[centerX, centerY]}
               // center={[120.751864, 23.575998]}
@@ -353,10 +231,6 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                               payload: { type: "town", feature: feature },
                             })
                           }
-                          onPointerEnter={(e) =>
-                            handlePointerMove(e, feature.properties.townName)
-                          }
-                          onPointerLeave={() => hideTooltip()}
                         ></path>
                         <text
                           className="district"
@@ -373,9 +247,9 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                   })}
                 </motion.g>
               )}
-            </CustomProjection>
+            </Mercator>
           </AnimatePresence>
-        )} */}
+        )}
       </svg>
       {/* go back button */}
       {state.currentLevel > 0 && (
@@ -389,21 +263,6 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
           back
         </button>
       )}
-      {/* show district name */}
-      {/* {tooltipOpen && (
-        <TooltipWithBounds
-          key={Math.random()} // needed for bounds to update correctly
-          left={tooltipLeft}
-          top={tooltipTop}
-          style={{
-            ...defaultStyles,
-            padding: 0,
-            fontSize: "1.5rem",
-          }}
-        >
-          {tooltipData}
-        </TooltipWithBounds>
-      )} */}
     </div>
   );
 }
