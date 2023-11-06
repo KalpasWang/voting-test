@@ -1,10 +1,15 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useReducer } from "react";
-import { Mercator } from "@visx/geo";
+import { Mercator, CustomProjection } from "@visx/geo";
 import { AnimatePresence, motion } from "framer-motion";
 import { grey, lime } from "@mui/material/colors";
-import { geoCentroid, geoMercator } from "d3-geo";
+import {
+  GeoRawProjection,
+  geoCentroid,
+  geoMercator,
+  geoProjection,
+} from "d3-geo";
 import { counties, towns } from "@/utils/districtsGeoData";
 import {
   getBlueWinCountys,
@@ -93,6 +98,15 @@ const GreenWinT = getGreenWinTowns(townsVoteResult);
 const BlueWinT = getBlueWinTowns(townsVoteResult);
 const townColor = getDistricColorMap(GreenWinT, BlueWinT, "town");
 
+// projection fn
+const rawProject: GeoRawProjection = function (x, y) {
+  return [x, -y];
+};
+
+function myProjection() {
+  return geoProjection(rawProject).precision(0).scale(2).translate([0, 0]);
+}
+
 export default function TaiwanMap({ width, height }: TaiwanMapProps) {
   const [state, dispatch] = useReducer(mapReducer, { currentLevel: 0 });
   const centerX = width / 2;
@@ -122,8 +136,9 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
       <svg id="map-svg" width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" />
         {/* render counties */}
-        <Mercator<CountyFeature>
+        <CustomProjection<CountyFeature>
           data={counties.features}
+          projection={myProjection}
           scale={scale}
           translate={[centerX, centerY]}
           center={[120.751864, 24.075998]}
@@ -135,7 +150,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
               {mercator.features.map(({ feature, path }, i) => {
                 return (
                   <path
-                    className="district"
+                    className={`district ${feature.properties.countyName}`}
                     key={`county-${i}`}
                     d={path || ""}
                     // @ts-ignore
@@ -153,10 +168,10 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
               })}
             </g>
           )}
-        </Mercator>
+        </CustomProjection>
         {/* render selected county border */}
         {state.selectedCounty && (
-          <Mercator<CountyFeature>
+          <CustomProjection<CountyFeature>
             data={[state.selectedCounty]}
             projection={geoMercator}
             scale={scale}
@@ -187,12 +202,12 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                 })}
               </motion.g>
             )}
-          </Mercator>
+          </CustomProjection>
         )}
         {/* render towns of selected county*/}
         {state.renderedTowns && state.selectedDistrict && (
           <AnimatePresence>
-            <Mercator<TownFeature>
+            <CustomProjection<TownFeature>
               data={state.renderedTowns}
               scale={scale}
               translate={[centerX, centerY]}
@@ -247,7 +262,7 @@ export default function TaiwanMap({ width, height }: TaiwanMapProps) {
                   })}
                 </motion.g>
               )}
-            </Mercator>
+            </CustomProjection>
           </AnimatePresence>
         )}
       </svg>
